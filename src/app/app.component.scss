@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    min-height: 100vh; /* Cela permet au body de prendre toute la hauteur de la fenêtre */
+}
+
+app-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%; /* Pour que le footer prenne toute la largeur */
+}
