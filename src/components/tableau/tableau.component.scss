@@ -1,0 +1,9 @@
+table {
+  width: 100%;
+  th.mat-header-cell {
+    background: #f1f1f1; // Couleur d'arrière-plan pour l'en-tête
+  }
+  td.mat-cell {
+    padding: 16px; // Espace dans les cellules
+  }
+}
