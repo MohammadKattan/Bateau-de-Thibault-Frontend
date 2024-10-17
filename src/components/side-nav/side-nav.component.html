@@ -1,0 +1,26 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" class="sidenav">
+    <mat-toolbar color="primary">
+      <span>Menu</span>
+    </mat-toolbar>
+    <mat-list>
+      <mat-list-item>
+        <a mat-list-item routerLink="/home">Home</a>
+      </mat-list-item>
+      <mat-list-item>
+        <a mat-list-item routerLink="/about">About</a>
+      </mat-list-item>
+      <mat-list-item>
+        <a mat-list-item routerLink="/contact">Contact</a>
+      </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon> 
+    </button>
+    <h5>Welcome to the Dashboard!</h5>
+    <p>Table here</p>
+  </mat-sidenav-content>
+</mat-sidenav-container>
