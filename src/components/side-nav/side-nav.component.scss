@@ -4,36 +4,19 @@
   box-sizing: border-box;
 }
 
-body {
-  background-color: #e40707; 
-  font-family: Arial, sans-serif; 
-}
-
 .sidenav-container {
-  height: 100%; 
-}
-
-.title-dahsboard{
-  font-family: 14px;
+  display: grid;
+  grid-template-columns: 250px 1fr;  /* 250px pour le sidenav, et le reste pour le tableau */
+  height: 100vh;  /* Pour que le conteneur occupe toute la hauteur */
 }
 
 .sidenav {
-  width: 250px; 
-  background-color:#3f51b5; 
-  color: white; 
+  grid-column: 1 / 2;  /* Le sidenav occupe la première colonne */
+  background-color: #121212;  /* Fond noir */
+  color: #ffffff;  /* Texte en blanc */
 }
 
-.sidenav a {
-  color: white; 
-  cursor: pointer;
+.mat-list-item {
+  color: #ffffff !important;  /* Forcer la couleur blanche pour les liens */
 }
 
-.sidenav-container{
-  background-color: white;
-  color: black;
-}
-
-mat-toolbar {
-  background-color: #3f51b5; 
-  color: white;
-}
