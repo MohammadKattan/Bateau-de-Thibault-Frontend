@@ -14,12 +14,13 @@ div {
 
   // Side Navigation (à gauche)
   app-side-nav {
-    grid-row: 2 / 3;  // Side-nav en dessous de la navbar
-    grid-column: 1 / 2;  // Occupe la première colonne
-    background-color: #f4f4f4;
+    grid-row: 2 / 3; /* Side-nav dans la deuxième ligne (en dessous du header si tu en as un) */
+    grid-column: 1 / 2; /* Side-nav dans la première colonne */
+    background-color: #080808;
+    color: #ffffff;
     padding: 1rem;
-    height: 100%;  // Occupe toute la hauteur sous la navbar
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);  // Un peu de style pour l'ombre
+    height: 100%; /* S'assurer qu'il occupe toute la hauteur */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   }
 
   // Contenu principal (à droite du side-nav)

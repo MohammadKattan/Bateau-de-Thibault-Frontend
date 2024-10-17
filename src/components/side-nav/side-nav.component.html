@@ -1,5 +1,5 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav mode="side" class="sidenav">
+  <mat-sidenav #sidenav mode="side" class="sidenav" fixedInViewport="true">
     <mat-toolbar color="primary">
       <span>Menu</span>
     </mat-toolbar>
@@ -15,12 +15,4 @@
       </mat-list-item>
     </mat-list>
   </mat-sidenav>
-
-  <mat-sidenav-content>
-    <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon> 
-    </button>
-    <h5>Welcome to the Dashboard!</h5>
-    <p>Table here</p>
-  </mat-sidenav-content>
 </mat-sidenav-container>
