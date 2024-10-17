@@ -20,17 +20,16 @@ interface DataElement {
 }
 
 @Injectable({
-  providedIn: 'root' // Déclare que ce service est disponible au niveau de l'application
+  providedIn: 'root' 
 })
 export class DataService {
-  private jsonUrl = 'assets/data.json'; // Chemin vers le fichier JSON
+  private jsonUrl = 'http://localhost:8000/poissons/';
+  // private jsonUrl = 'assets/data.json'; 
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  // Méthode pour récupérer les données
-  getData() {
-    // console.log(data)
-    return data;
-    // return this.http.get<DataElement[]>(this.jsonUrl);
+  // Méthode pour récupérer les données depuis l'URL
+  getData(): Observable<DataElement[]> {
+    return this.http.get<DataElement[]>(this.jsonUrl);
   }
 }
