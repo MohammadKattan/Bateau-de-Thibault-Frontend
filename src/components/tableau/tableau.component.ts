@@ -29,7 +29,9 @@ export class DataTableComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.dataSource=this.dataService.getData()
+    console.log("this is from tableau")
+    this.dataSource = this.dataService.getData()
+    // console.log(this.dataSource)
       //.subscribe(response => {
      // this.dataSource = response; 
     //});

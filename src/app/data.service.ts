@@ -25,11 +25,12 @@ interface DataElement {
 export class DataService {
   private jsonUrl = 'assets/data.json'; // Chemin vers le fichier JSON
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
   // Méthode pour récupérer les données
   getData() {
+    // console.log(data)
     return data;
-    return this.http.get<DataElement[]>(this.jsonUrl);
+    // return this.http.get<DataElement[]>(this.jsonUrl);
   }
 }
