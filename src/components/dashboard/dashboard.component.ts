@@ -1,20 +1,31 @@
-import { Component } from '@angular/core';
-import { DataService } from '../../app/data.service';
+import { Component, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms'; 
 import { Chart, registerables } from 'chart.js';
+import { DataService } from '../../app/data.service'; // Assurez-vous que le chemin est correct
 
+// Enregistrement des composants de Chart.js
 Chart.register(...registerables);
+
+// Interface pour typage des données de ventes
+interface SalesData {
+  pid: number;
+  category_name: string;
+  price: number;
+  quantity: number;
+  date: string;
+}
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,MatTableModule,FormsModule],
+  imports: [CommonModule, MatTableModule, FormsModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrls: ['./dashboard.component.scss'] // Correction du champ styleUrl
 })
-export class DashboardComponent {
-  salesData: any[] = [];
+export class DashboardComponent implements AfterViewInit {
+  salesData: SalesData[] = []; // Typage explicite
   totalRevenue: number = 0;
   selectedCategory: string = 'all';
   categories = ['Poisson', 'Crustacé', 'Coquillage'];
@@ -26,7 +37,7 @@ export class DashboardComponent {
   }
 
   loadData() {
-    this.dataService.getData().subscribe(data => {
+    this.dataService.getData().subscribe((data: SalesData[]) => { // Typage de 'data'
       this.salesData = data;
       this.calculateRevenue(); // Calcul initial du CA
     });
@@ -38,7 +49,7 @@ export class DashboardComponent {
 
   calculateRevenue() {
     this.totalRevenue = this.salesData
-      .filter(item => item.achat) // Filtrer uniquement les ventes
+      .filter(item => item.quantity > 0) // Filtrer uniquement les ventes
       .filter(item => this.selectedCategory === 'all' || item.category_name === this.selectedCategory) // Filtrer par catégorie
       .reduce((sum, item) => sum + (item.price * item.quantity), 0); // Calcul sans réduction
   }
