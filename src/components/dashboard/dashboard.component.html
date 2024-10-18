@@ -7,12 +7,36 @@
     <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
   </select>
 
+  <label for="year">Filtrer par année :</label>
+  <select id="year" [(ngModel)]="selectedYear" (change)="onYearChange(selectedYear)">
+    <option value="all">Toutes les années</option>
+    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+  </select>
+
+  <label for="month" *ngIf="selectedYear !== 'all'">Filtrer par mois :</label>
+  <select id="month" *ngIf="selectedYear !== 'all'" [(ngModel)]="selectedMonth" (change)="onMonthChange(selectedMonth)">
+    <option value="all">Tous les mois</option>
+    <option *ngFor="let month of months" [value]="month">{{ monthNames[month] }}</option>
+  </select>
+
+  <label for="week" *ngIf="selectedMonth !== 'all' && selectedYear !== 'all'">Filtrer par semaine :</label>
+  <select id="week" *ngIf="selectedMonth !== 'all' && selectedYear !== 'all'" [(ngModel)]="selectedWeek" (change)="onWeekChange(selectedWeek)">
+    <option value="all">Toutes les semaines</option>
+    <option *ngFor="let week of availableWeeks" [value]="week">{{ week }}</option>
+  </select>
+
+  <label for="promotion">Filtrer par promotion :</label>
+  <select id="promotion" [(ngModel)]="selectedPromotion" (change)="onPromotionChange(selectedPromotion)">
+    <option value="all">Toutes les promotions</option>
+    <option *ngFor="let promotion of promotions" [value]="promotion">{{ promotion }}</option>
+  </select>
+    
   <h3>Chiffre d'affaires : {{ totalRevenue | currency:'EUR' }}</h3>
   
   <canvas id="myChart" width="400" height="200"></canvas>
 
   <h3>Données des ventes</h3>
-  <table mat-table [dataSource]="salesData" class="mat-elevation-z8">
+  <table mat-table [dataSource]="filteredSalesData" class="mat-elevation-z8">
     
     <ng-container matColumnDef="pid">
       <th mat-header-cell *matHeaderCellDef> PID </th>

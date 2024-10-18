@@ -9,6 +9,7 @@ export interface SalesData {
   price: number;
   quantity: number;
   date: string;
+  type_promotion:string
 }
 
 @Injectable({
