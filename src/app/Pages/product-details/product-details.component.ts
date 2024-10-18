@@ -11,7 +11,7 @@ import { catchError } from 'rxjs';
 @Component({
   selector: 'app-details-produits',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.css'],
+  styleUrl: './product-details.component.scss',
   standalone: true,
   imports: [MatTableModule, NgIf, NgFor,FormsModule, MatIconModule],
   providers: [DecimalPipe],

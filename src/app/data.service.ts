@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import data from '../assets/data.json';
-
-
 import { Observable } from 'rxjs';
 
 // Définition de l'interface pour les éléments de données
@@ -25,12 +22,12 @@ interface DataElement {
 })
 export class DataService {
   private jsonUrl = 'http://localhost:8000/poissons/';
-  // private jsonUrl = 'assets/data.json'; 
+  private dataUrl = 'assets/data_part2.json'; // chemin vers votre fichier JSON
 
   constructor(private http: HttpClient) { }
 
   // Méthode pour récupérer les données depuis l'URL
   getData(): Observable<DataElement[]> {
-    return this.http.get<DataElement[]>(this.jsonUrl);
+    return this.http.get<any[]>(this.dataUrl);
   }
 }
