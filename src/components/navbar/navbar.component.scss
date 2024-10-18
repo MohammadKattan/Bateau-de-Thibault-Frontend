@@ -1,4 +1,34 @@
+.custom-toolbar {
+  background: linear-gradient(45deg, #ff4081, #7c4dff); /* Dégradé de couleurs vives */
+  color: white; /* Couleur du texte */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Légère ombre pour donner de la profondeur */
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-link {
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 0 10px; /* Espacement entre les liens */
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Légère surbrillance au survol */
+  border-radius: 5px; /* Arrondir les bords du lien au survol */
+}
+
 .spacer {
-    flex: 1 1 auto; /* Pour créer un espacement entre le titre et les liens */
-  }
-  
+  flex: 1 1 auto;
+}
+
+
+/* Personnaliser la couleur primaire */
+:root {
+  --mat-primary: #ff4081; /* Couleur primaire personnalisée */
+  --mat-accent: #7c4dff; /* Couleur d'accentuation */
+}
