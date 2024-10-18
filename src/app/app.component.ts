@@ -10,4 +10,5 @@ import { HomeComponent } from '../components/home/home.component';
 })
 export class AppComponent {
   title = 'bateau-frontend';
+  imagePath: any = 'assets/photo/photo1.jpg';
 }
