@@ -11,12 +11,12 @@ import { catchError } from 'rxjs';
 @Component({
   selector: 'app-details-produits',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.css'],
+  styleUrls: ['./product-details.component.scss'],
   standalone: true,
   imports: [MatTableModule, NgIf, NgFor,FormsModule, MatIconModule],
   providers: [DecimalPipe],
 })
-export class ProductDetailsComponent {
+export class ProductDetailsComponent implements OnInit, OnChanges{
   productsList: Product[] = [];
   productsCrustacesList: Product[] = [];
   selectedProduct: Product | undefined;

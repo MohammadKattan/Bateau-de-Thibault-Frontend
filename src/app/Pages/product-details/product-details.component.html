@@ -6,7 +6,7 @@
     <button mat-raised-button class="filtre-button" (click)="filterByCategory(1)" [class.active]="selectedCategory === 1">Fruits de Mer</button>
     <button mat-raised-button class="filtre-button" (click)="filterByCategory(2)" [class.active]="selectedCategory === 2">Crustacés</button>
 </div>
-<table mat-table [dataSource]="productsList" class="mat-elevation-z8 demo-table shadow-light"></table>
+<table mat-table [dataSource]="productsList" class="mat-elevation-z8 demo-table shadow-light">
     <ng-container matColumnDef="name">
         <th class="vertical-line --primary-blue-title" mat-header-cell *matHeaderCellDef>Name</th>
         <td class="vertical-line" mat-cell *matCellDef="let product" [style.border]="!product.name ? '1px solid #bf1717' : ''" [attr.title]="!product.name ? 'Errrrreuur' : null">
@@ -125,6 +125,6 @@
         </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="[ 'name', 'price','sale', 'discount','price_on_sale',  'quantityInStock', 'quantity_sold', 'comments' ,'edit',]"></tr>
-    <tr mat-row *matRowDef="let row; columns: [ 'name', 'price','sale', 'discount', 'price_on_sale', 'quantityInStock', 'quantity_sold', 'comments' ,'edit',]"></tr>
+    <tr mat-header-row *matHeaderRowDef="[ 'name', 'price','sale', 'discount','price_on_sale',  'quantityInStock', 'comments' ,'edit',]"></tr>
+    <tr mat-row *matRowDef="let row; columns: [ 'name', 'price','sale', 'discount', 'price_on_sale', 'quantityInStock', 'comments' ,'edit',]"></tr>
 </table>
