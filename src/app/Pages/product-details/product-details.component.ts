@@ -16,7 +16,7 @@ import { catchError } from 'rxjs';
   imports: [MatTableModule, NgIf, NgFor,FormsModule, MatIconModule],
   providers: [DecimalPipe],
 })
-export class ProductDetailsComponent {
+export class ProductDetailsComponent implements OnInit, OnChanges{
   productsList: Product[] = [];
   productsCrustacesList: Product[] = [];
   selectedProduct: Product | undefined;

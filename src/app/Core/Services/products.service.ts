@@ -7,13 +7,12 @@ import { Observable } from 'rxjs';
     })
     export class ProductsService {
 
-    private apiUrl = 'http://127.0.0.1:8000'; 
+    private apiUrl = 'http://localhost:8000'; 
 
     constructor(private http: HttpClient) { }
 
     
     public getProductsFromJson(): Observable<Product[]> {
-        console.log('coucou ', this.http.get<Product[]>(this.apiUrl + '/infoproducts/'));
         return this.http.get<Product[]>(this.apiUrl + '/infoproducts/');
     }
 
@@ -21,11 +20,15 @@ import { Observable } from 'rxjs';
         return this.http.get<Product>(this.apiUrl + "/putonsale/" + product.tig_id + "/" + product.discount);
     }
     updateProductdecrementStockById(product: Product, quantity: number): Observable<Product> {
-        return this.http.get<Product>(this.apiUrl + "/decrementstock/" + product.tig_id + "/" + quantity);
+        return this.http.get<Product>(this.apiUrl + "/decrementStock/" + product.tig_id + "/" + quantity);
     }
 
     updateProductincrementStockById(product: Product, quantity: number): Observable<Product> {
-        return this.http.get<Product>(this.apiUrl + "/incrementstock/" + product.tig_id + "/" + quantity);
+        // const setHeaders= {
+        //         'Content-type' : 'application/json',
+        //             'Access-Control-Allow-Origin'  :'*',
+        // }
+        return this.http.get<Product>(this.apiUrl + "/incrementStock/" + product.tig_id + "/" + quantity);
     }
     getProductImageById(product: Product, quantity: number): Observable<Product> {
         return this.http.get<Product>(this.apiUrl + "/myImage/" + product.tig_id + "/" + quantity);

@@ -125,6 +125,6 @@
         </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="[ 'name', 'price','sale', 'discount','price_on_sale','quantity_sold', 'comments' ,'edit']"></tr>
-    <tr mat-row *matRowDef="let row; columns: [ 'name', 'price','sale', 'discount', 'price_on_sale',  'quantity_sold', 'comments' ,'edit']"></tr>
+    <tr mat-header-row *matHeaderRowDef="[ 'name', 'price','sale', 'discount','price_on_sale',  'quantityInStock', 'comments' ,'edit',]"></tr>
+    <tr mat-row *matRowDef="let row; columns: [ 'name', 'price','sale', 'discount', 'price_on_sale', 'quantityInStock', 'comments' ,'edit',]"></tr>
 </table>
