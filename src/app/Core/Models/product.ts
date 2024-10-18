@@ -12,7 +12,6 @@ export interface Product{
     comments: string;
     owner: string;
     quantityInStock: number;
-    
+    isEditing: boolean;
     // quantity_sold:number;
-    // isEditing: boolean;
 }
