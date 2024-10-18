@@ -17,6 +17,7 @@ interface DataElement {
   discount: number;
   comments: string;
   owner: string;
+  quantityInStock: number;
 }
 
 @Injectable({
