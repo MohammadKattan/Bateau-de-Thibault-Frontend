@@ -4,19 +4,10 @@ import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms'; 
 import { Chart, registerables } from 'chart.js';
 import { DataService } from '../../app/data.service';
+import { StatsService } from '../../app/Core/Services/stats.service';
+import { Stats } from '../../app/Core/Models/stats'
 
 Chart.register(...registerables);
-
-interface SalesData {
-  pid: number;
-  category_name: string;
-  price: number;
-  quantity: number;
-  date: string;
-  type_promotion: string; // Ajouté pour le type de promotion
-  total_invoice: number; // Montant de la facture payable à Bateau Thibault
-}
-
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -25,8 +16,8 @@ interface SalesData {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements AfterViewInit {
-  salesData: SalesData[] = [];
-  filteredSalesData: SalesData[] = [];
+  salesData: Stats[] = [];
+  filteredSalesData: Stats[] = [];
   totalRevenue: number = 0;
   totalInvoices: number = 0; // Total des factures à payer
   margin: number = 0; // Marge calculée
@@ -52,20 +43,19 @@ export class DashboardComponent implements AfterViewInit {
 
   promotions: string[] = [];
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService,private StatsService: StatsService) {}
 
   ngOnInit(): void {
     this.loadData();
   }
 
   loadData() {
-    this.dataService.getData().subscribe((data: SalesData[]) => {
+    this.StatsService.getStatsFromJson().subscribe((data) => {
       this.salesData = data;
       this.promotions = [...new Set(data.map(item => item.type_promotion))];
       this.applyFilters();
     });
   }
-
   ngAfterViewInit(): void {
     this.createChart();
   }

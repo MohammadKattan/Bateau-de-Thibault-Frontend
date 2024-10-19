@@ -15,6 +15,9 @@ import { Observable } from 'rxjs';
     public getProductsFromJson(): Observable<Product[]> {
         return this.http.get<Product[]>(this.apiUrl + '/infoproducts/');
     }
+    public getProductsPoissons(): Observable<Product[]> {
+        return this.http.get<Product[]>(this.apiUrl + '/poissons/');
+    }
 
     updateProductputonsale(product: Product): Observable<Product> {
         return this.http.get<Product>(this.apiUrl + "/putonsale/" + product.tig_id + "/" + product.discount);
@@ -24,10 +27,6 @@ import { Observable } from 'rxjs';
     }
 
     updateProductincrementStockById(product: Product, quantity: number): Observable<Product> {
-        // const setHeaders= {
-        //         'Content-type' : 'application/json',
-        //             'Access-Control-Allow-Origin'  :'*',
-        // }
         return this.http.get<Product>(this.apiUrl + "/incrementStock/" + product.tig_id + "/" + quantity);
     }
     getProductImageById(product: Product, quantity: number): Observable<Product> {
