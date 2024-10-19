@@ -21,6 +21,14 @@
     </select>
 
     <!-- Filtres supplémentaires -->
+
+    <label for="quarter">Filtrer par trimestre :</label>
+    <select id="quarter" [(ngModel)]="selectedQuarter" (change)="onQuarterChange(selectedQuarter)">
+      <option value="all">Tous les trimestres</option>
+      <option *ngFor="let quarter of quarters" [value]="quarter">{{ quarter }}</option>
+    </select>
+
+
     <label for="month" *ngIf="selectedYear !== 'all'">Filtrer par mois :</label>
     <select id="month" *ngIf="selectedYear !== 'all'" [(ngModel)]="selectedMonth" (change)="onMonthChange(selectedMonth)">
       <option value="all">Tous les mois</option>

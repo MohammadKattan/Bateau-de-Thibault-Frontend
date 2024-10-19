@@ -5,8 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { Chart, registerables } from 'chart.js';
 import { DataService } from '../../app/data.service';
 
-
-
 Chart.register(...registerables);
 
 interface SalesData {
@@ -17,7 +15,6 @@ interface SalesData {
   date: string;
   type_promotion: string; // Ajouté pour le type de promotion
   total_invoice: number; // Montant de la facture payable à Bateau Thibault
-
 }
 
 @Component({
@@ -40,7 +37,9 @@ export class DashboardComponent implements AfterViewInit {
   selectedYear: string = 'all';
   selectedMonth: string = 'all';
   selectedWeek: string = 'all';
+  selectedQuarter: string = 'all'; // Nouveau champ pour le trimestre
   selectedPromotion: string = 'all';
+  
   categories = ['Poisson', 'Crustacé', 'Coquillage'];
   years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
   months = Array.from({ length: 12 }, (_, i) => i);
@@ -49,6 +48,8 @@ export class DashboardComponent implements AfterViewInit {
     'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
   ];
   availableWeeks: number[] = [];
+  quarters = ['1er trimestre', '2ème trimestre', '3ème trimestre', '4ème trimestre'];
+
   promotions: string[] = [];
 
   constructor(private dataService: DataService) {}
@@ -76,10 +77,19 @@ export class DashboardComponent implements AfterViewInit {
       .filter(item => this.selectedYear === 'all' || new Date(item.date).getFullYear().toString() === this.selectedYear)
       .filter(item => this.selectedMonth === 'all' || new Date(item.date).getMonth() === +this.selectedMonth)
       .filter(item => this.selectedWeek === 'all' || this.getWeekNumber(new Date(item.date)) === +this.selectedWeek)
+      .filter(item => this.selectedQuarter === 'all' || this.getQuarter(new Date(item.date)) === this.selectedQuarter)
       .filter(item => this.selectedPromotion === 'all' || item.type_promotion === this.selectedPromotion);
 
     this.calculateRevenue();
     this.calculateMarginAndTaxes();
+  }
+
+  getQuarter(date: Date): string {
+    const month = date.getMonth();
+    if (month < 3) return '1er trimestre';
+    if (month < 6) return '2ème trimestre';
+    if (month < 9) return '3ème trimestre';
+    return '4ème trimestre';
   }
 
   getWeekNumber(date: Date): number {
@@ -104,6 +114,7 @@ export class DashboardComponent implements AfterViewInit {
     this.totalInvoices = this.filteredSalesData
       .reduce((sum, item) => sum + item.total_invoice, 0);
   }
+
   calculateMarginAndTaxes() {
     this.margin = this.totalRevenue - this.totalInvoices;
     this.accountingResult = this.margin; // Résultat comptable est égal à la marge pour l'année
@@ -167,6 +178,7 @@ export class DashboardComponent implements AfterViewInit {
     this.selectedYear = year;
     this.selectedMonth = 'all';
     this.selectedWeek = 'all';
+    this.selectedQuarter = 'all'; // Reset quarter when year changes
     this.updateAvailableWeeks();
     this.applyFilters();
     this.createChart();
@@ -175,6 +187,7 @@ export class DashboardComponent implements AfterViewInit {
   onMonthChange(month: string) {
     this.selectedMonth = month;
     this.selectedWeek = 'all';
+    this.selectedQuarter = 'all'; // Reset quarter when month changes
     this.updateAvailableWeeks();
     this.applyFilters();
     this.createChart();
@@ -182,6 +195,12 @@ export class DashboardComponent implements AfterViewInit {
 
   onWeekChange(week: string) {
     this.selectedWeek = week;
+    this.applyFilters();
+    this.createChart();
+  }
+
+  onQuarterChange(quarter: string) {
+    this.selectedQuarter = quarter;
     this.applyFilters();
     this.createChart();
   }
