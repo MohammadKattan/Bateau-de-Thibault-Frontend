@@ -1,34 +1,62 @@
 .custom-toolbar {
-  background: linear-gradient(45deg, #ff4081, #7c4dff); /* Dégradé de couleurs vives */
-  color: white; /* Couleur du texte */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Légère ombre pour donner de la profondeur */
+  background: linear-gradient(45deg, #ff4081, #7c4dff); 
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0 20px; 
+  display: flex;
+  align-items: center;
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+
+  .logo-icon {
+    font-size: 2rem;
+    margin-right: 10px; 
+    animation: spin 5s infinite linear; 
+  }
 }
 
 .nav-link {
   color: white;
   text-transform: uppercase;
   font-weight: bold;
-  margin: 0 10px; /* Espacement entre les liens */
-  transition: background-color 0.3s ease;
-}
+  margin: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px; 
+  transition: background-color 0.3s ease, transform 0.3s ease;
 
-.nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Légère surbrillance au survol */
-  border-radius: 5px; /* Arrondir les bords du lien au survol */
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1); 
+    border-radius: 5px;
+    transform: translateY(-2px); 
+  }
+
+  mat-icon {
+    font-size: 1.2rem; 
+  }
 }
 
 .spacer {
   flex: 1 1 auto;
 }
 
+// Animation de rotation pour l'icône logo
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
-/* Personnaliser la couleur primaire */
+// Couleurs personnalisées
 :root {
-  --mat-primary: #ff4081; /* Couleur primaire personnalisée */
-  --mat-accent: #7c4dff; /* Couleur d'accentuation */
+  --mat-primary: #ff4081; 
+  --mat-accent: #7c4dff; 
 }

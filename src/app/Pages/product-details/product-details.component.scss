@@ -1,0 +1,196 @@
+.container-detailsproduct {
+  .product-details {
+    border-radius: 12px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+
+    .section-title {
+      font-size: 2rem;
+      color: #4A90E2;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 30px;
+      margin-top: 50px;
+
+      &::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: #ff4081;
+        margin: 10px auto 0;
+      }
+    }
+
+    .product-info {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 30px;
+
+      .icon {
+        font-size: 1.5rem;
+        margin-right: 10px;
+        color: #4A90E2;
+      }
+
+      p {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      }
+    }
+  }
+
+  // Partie filtre 
+  .filter-container {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .filter-title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+  }
+
+  .chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .filter-chip {
+    padding: 8px 12px;
+    border-radius: 16px;
+    background-color: #e0e0e0;
+    color: #000;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 14px;
+
+    &:hover {
+      background-color: #d0d0d0;
+    }
+
+    &.selected {
+      background-color: #3f51b5; 
+      color: white;
+    }
+  }
+
+  // Table
+  .animated-table {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards; // Animation d'apparition
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .demo-table {
+    background-color: white; 
+    color: black; 
+    border-collapse: collapse; 
+    width: 100%;
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    overflow: hidden; 
+  }
+
+  .mat-header-cell {
+    background-color: #f5f5f5; 
+    color: black; 
+    font-weight: bold;
+    padding: 15px;
+    border-bottom: 2px solid #ddd;
+    text-align: left;
+  }
+
+  .mat-cell {
+    padding: 12px;
+    color: black; 
+    border-bottom: 1px solid #ddd; 
+  }
+   table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 10px;
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #BD46C1;
+      color: white;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    td {
+      color: #333;
+      border-bottom: 1px solid #e0e0e0;
+      cursor: pointer;
+    }
+
+    tr {
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+  }
+
+  .mat-row:hover {
+    background-color: #f0f0f0; 
+    cursor: pointer;
+  }
+
+  .vertical-line {
+    border-right: 1px solid #ddd; 
+  }
+
+  /* Bouton transparent pour les actions d'édition */
+  .transparent-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .transparent-button:hover mat-icon {
+    color: #4a90e2; // Couleur du bouton au survol
+  }
+
+  .width-input-max {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .width-input-max:focus {
+    border-color: #4a90e2; // Bordure bleue lorsque l'input est focus
+  }
+}
