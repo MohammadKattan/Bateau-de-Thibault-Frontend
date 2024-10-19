@@ -70,10 +70,37 @@
 
             </ng-container>
             <ng-template #editField>
-            <form (submit)="saveProduct(product); toggleEditMode(product)">
-                <input type="number" class="width-input-max" [(ngModel)]="product.quantityInStock" [value]="quantityInStock" name="quantityInStock" required>
-            </form>
-            </ng-template>
+    <form (submit)="saveProduct(product); toggleEditMode(product)">
+        <!-- Input pour la quantité -->
+        <input 
+            type="number" 
+            class="width-input-max" 
+            [(ngModel)]="quantityChange" 
+            name="quantityChange" 
+            placeholder="Entrez la quantité" 
+            required>
+        <!-- Checkbox pour incrémenter -->
+        <label>
+            <input 
+                type="checkbox" 
+                [(ngModel)]="isIncrementing" 
+                (change)="onCheckboxChange('increment')" 
+                name="incrementCheckbox">
+            Incrémenter
+        </label>
+        
+        <!-- Checkbox pour décrémenter -->
+        <label>
+            <input 
+                type="checkbox" 
+                [(ngModel)]="isDecrementing" 
+                (change)="onCheckboxChange('decrement')" 
+                name="decrementCheckbox">
+            Décrémenter
+        </label>
+    </form>
+</ng-template>
+
         </td>
     </ng-container>
 
@@ -119,12 +146,9 @@
             <button mat-button class="transparent-button" aria-label="Example icon button with a home icon" (click)="toggleEditMode(product)">
             <mat-icon class="blue-icon">edit</mat-icon>
             </button>
-
-
         </ng-template>
         </td>
     </ng-container>
-
     <tr mat-header-row *matHeaderRowDef="[ 'name', 'price','sale', 'discount','price_on_sale',  'quantityInStock', 'comments' ,'edit',]"></tr>
     <tr mat-row *matRowDef="let row; columns: [ 'name', 'price','sale', 'discount', 'price_on_sale', 'quantityInStock', 'comments' ,'edit',]"></tr>
 </table>

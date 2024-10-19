@@ -17,6 +17,11 @@ import { catchError } from 'rxjs';
   providers: [DecimalPipe],
 })
 export class ProductDetailsComponent implements OnInit, OnChanges{
+  quantityChange: number = 0;
+
+  // Variables pour savoir quelle checkbox est sélectionnée
+  isIncrementing: boolean = false;
+  isDecrementing: boolean = false;
   productsList: Product[] = [];
   productsCrustacesList: Product[] = [];
   selectedProduct: Product | undefined;
@@ -37,6 +42,13 @@ export class ProductDetailsComponent implements OnInit, OnChanges{
   ngOnChanges() {
     console.log('helloooo ');
   }
+  onCheckboxChange(action: 'increment' | 'decrement') {
+    if (action === 'increment') {
+      this.isDecrementing = false; // Désactiver la décrémentation
+    } else if (action === 'decrement') {
+      this.isIncrementing = false; // Désactiver l'incrémentation
+    }
+  }
 
   getProduit(id: number): Product | undefined {
     return this.productsList.find(product => product.id === id);
@@ -51,13 +63,23 @@ export class ProductDetailsComponent implements OnInit, OnChanges{
   }
 
   saveProduct(product: Product) {
-    console.log(product.quantityInStock);
-    console.log(this.quantityInStock);
-    this.productService.updateProduct(product)
+    if (this.isIncrementing) {
+      this.incrementStock(product, this.quantityChange);
+    } else if (this.isDecrementing) {
+      this.decrementStock(product, this.quantityChange);
+    } else {
+      console.error("Aucune action sélectionnée (ni incrémenter ni décrémenter).");
+    }
+
+    this.updateProductIfNeeded(product); // Mise à jour du produit si nécessaire
+  }
+
+  updateProductIfNeeded(product: Product) {
+    this.productService.updateProductputonsale(product)
       .pipe(
         catchError((error) => {
           console.error('Erreur lors de la mise à jour du produit', error);
-          throw error; // Propagez l'erreur pour la gérer ailleurs si nécessaire
+          throw error;
         })
       )
       .subscribe(
@@ -65,50 +87,38 @@ export class ProductDetailsComponent implements OnInit, OnChanges{
           console.log('Produit mis à jour avec succès', updatedProduct);
         }
       );
-
-      if(this.quantityInStock != product.quantityInStock ) {
-        if((product.quantityInStock - this.quantityInStock ) < 0) {
-          const valeur = (this.quantityInStock - product.quantityInStock);
-          console.log('Math.abs(valeur)' + Math.abs(valeur));
-          console.log('valeur' + valeur);
-
-          this.productService.updateProductdecrementStockById(product, Math.abs(valeur))
-            .pipe(
-              catchError((error) => {
-                console.error('Erreur lors de la mise à jour du produit', error);
-                throw error;
-              })
-            )
-            .subscribe(
-              (updatedProduct) => {
-
-                console.log('Produit mis à jour avec succès', updatedProduct);
-              }
-            );
-
-        } else {
-
-          const valeur = (this.quantityInStock - product.quantityInStock);
-          this.productService.updateProductincrementStockById(product, Math.abs(valeur))
-          .pipe(
-            catchError((error) => {
-              console.error('Erreur lors de la mise à jour du produit', error);
-              throw error;
-            })
-          )
-          .subscribe(
-            (updatedProduct) => {
-
-              console.log('Produit mis à jour avec succès', updatedProduct);
-            }
-          );
-
-        }
-
-      }
-
-
   }
+
+  incrementStock(product: Product, value: number) {
+    this.productService.updateProductincrementStockById(product, value)
+      .pipe(
+        catchError((error) => {
+          console.error('Erreur lors de la mise à jour du produit', error);
+          throw error;
+        })
+      )
+      .subscribe(
+        (updatedProduct) => {
+          console.log('Stock incrémenté avec succès', updatedProduct);
+          product.quantityInStock += value;
+        }
+      );
+}
+
+decrementStock(product: Product, value: number) {
+    this.productService.updateProductdecrementStockById(product, value)
+      .pipe(
+        catchError((error) => {
+          console.error('Erreur lors de la mise à jour du produit', error);
+          throw error;
+        })
+      )
+      .subscribe(
+        (updatedProduct) => {
+          console.log('Stock décrémenté avec succès', updatedProduct);
+        }
+      );
+}
 
   enableEditModeForAll() {
     this.product.isEditing = true;
