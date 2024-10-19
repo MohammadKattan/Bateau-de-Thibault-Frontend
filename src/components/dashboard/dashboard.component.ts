@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { Chart, registerables } from 'chart.js';
 import { DataService } from '../../app/data.service';
 
+
+
 Chart.register(...registerables);
 
 interface SalesData {
@@ -14,6 +16,8 @@ interface SalesData {
   quantity: number;
   date: string;
   type_promotion: string; // Ajouté pour le type de promotion
+  total_invoice: number; // Montant de la facture payable à Bateau Thibault
+
 }
 
 @Component({
@@ -27,20 +31,25 @@ export class DashboardComponent implements AfterViewInit {
   salesData: SalesData[] = [];
   filteredSalesData: SalesData[] = [];
   totalRevenue: number = 0;
+  totalInvoices: number = 0; // Total des factures à payer
+  margin: number = 0; // Marge calculée
+  accountingResult: number = 0; // Résultat comptable
+  corporateTax: number = 0; // Impôt sur les sociétés
+
   selectedCategory: string = 'all';
   selectedYear: string = 'all';
-  selectedMonth: string = 'all'; // Propriété pour le mois
-  selectedWeek: string = 'all'; // Propriété pour la semaine
-  selectedPromotion: string = 'all'; // Propriété pour la promotion
+  selectedMonth: string = 'all';
+  selectedWeek: string = 'all';
+  selectedPromotion: string = 'all';
   categories = ['Poisson', 'Crustacé', 'Coquillage'];
-  years = Array.from({length: 10}, (_, i) => new Date().getFullYear() - i);
-  months = Array.from({length: 12}, (_, i) => i); // 0 à 11 pour les mois
+  years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
+  months = Array.from({ length: 12 }, (_, i) => i);
   monthNames = [
     'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
     'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
   ];
-  availableWeeks: number[] = []; // Pour stocker les semaines disponibles dans le mois
-  promotions: string[] = []; // Liste des promotions
+  availableWeeks: number[] = [];
+  promotions: string[] = [];
 
   constructor(private dataService: DataService) {}
 
@@ -51,16 +60,13 @@ export class DashboardComponent implements AfterViewInit {
   loadData() {
     this.dataService.getData().subscribe((data: SalesData[]) => {
       this.salesData = data;
-
-      // Remplir la liste des promotions
-      this.promotions = [...new Set(data.map(item => item.type_promotion))]; // Extraire les types de promotion uniques
-      
-      this.applyFilters(); // Appliquer les filtres après le chargement des données
+      this.promotions = [...new Set(data.map(item => item.type_promotion))];
+      this.applyFilters();
     });
   }
 
   ngAfterViewInit(): void {
-    this.createChart(); // Crée le graphique après le chargement des données
+    this.createChart();
   }
 
   applyFilters() {
@@ -69,15 +75,16 @@ export class DashboardComponent implements AfterViewInit {
       .filter(item => this.selectedCategory === 'all' || item.category_name === this.selectedCategory)
       .filter(item => this.selectedYear === 'all' || new Date(item.date).getFullYear().toString() === this.selectedYear)
       .filter(item => this.selectedMonth === 'all' || new Date(item.date).getMonth() === +this.selectedMonth)
-      .filter(item => this.selectedWeek === 'all' || this.getWeekNumber(new Date(item.date)) === +this.selectedWeek) // Filtre par semaine
-      .filter(item => this.selectedPromotion === 'all' || item.type_promotion === this.selectedPromotion); // Filtre par promotion
+      .filter(item => this.selectedWeek === 'all' || this.getWeekNumber(new Date(item.date)) === +this.selectedWeek)
+      .filter(item => this.selectedPromotion === 'all' || item.type_promotion === this.selectedPromotion);
 
-    this.calculateRevenue(); // Calculer le chiffre d'affaires après filtrage
+    this.calculateRevenue();
+    this.calculateMarginAndTaxes();
   }
 
   getWeekNumber(date: Date): number {
-    const start = new Date(date.getFullYear(), date.getMonth(), 1); // Premier jour du mois
-    const weekNumber = Math.floor((date.getDate() + start.getDay()) / 7) + 1; // Calcul du numéro de la semaine
+    const start = new Date(date.getFullYear(), date.getMonth(), 1);
+    const weekNumber = Math.floor((date.getDate() + start.getDay()) / 7) + 1;
     return weekNumber;
   }
 
@@ -86,13 +93,21 @@ export class DashboardComponent implements AfterViewInit {
       const daysInMonth = new Date(+this.selectedYear, +this.selectedMonth + 1, 0).getDate();
       this.availableWeeks = Array.from({length: Math.ceil(daysInMonth / 7)}, (_, i) => i + 1);
     } else {
-      this.availableWeeks = []; // Réinitialiser si l'année ou le mois est 'all'
+      this.availableWeeks = [];
     }
   }
 
   calculateRevenue() {
     this.totalRevenue = this.filteredSalesData
       .reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    this.totalInvoices = this.filteredSalesData
+      .reduce((sum, item) => sum + item.total_invoice, 0);
+  }
+  calculateMarginAndTaxes() {
+    this.margin = this.totalRevenue - this.totalInvoices;
+    this.accountingResult = this.margin; // Résultat comptable est égal à la marge pour l'année
+    this.corporateTax = this.accountingResult > 0 ? this.accountingResult * 0.30 : 0;
   }
 
   createChart() {
@@ -150,17 +165,17 @@ export class DashboardComponent implements AfterViewInit {
 
   onYearChange(year: string) {
     this.selectedYear = year;
-    this.selectedMonth = 'all'; // Réinitialiser le mois lors du changement d'année
-    this.selectedWeek = 'all'; // Réinitialiser la semaine lors du changement d'année
-    this.updateAvailableWeeks(); // Mettre à jour les semaines disponibles
+    this.selectedMonth = 'all';
+    this.selectedWeek = 'all';
+    this.updateAvailableWeeks();
     this.applyFilters();
     this.createChart();
   }
 
   onMonthChange(month: string) {
     this.selectedMonth = month;
-    this.selectedWeek = 'all'; // Réinitialiser la semaine lors du changement de mois
-    this.updateAvailableWeeks(); // Mettre à jour les semaines disponibles
+    this.selectedWeek = 'all';
+    this.updateAvailableWeeks();
     this.applyFilters();
     this.createChart();
   }
