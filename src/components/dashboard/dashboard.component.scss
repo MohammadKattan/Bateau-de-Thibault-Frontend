@@ -1,7 +1,184 @@
 .dashboard {
-    canvas {
-      max-width: 600px;
-      margin: 20px auto; // Centrer le graphique
+  //welcome
+  .welcome-card {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+
+
+    h3 {
+      font-size: 1.8rem;
+      color: #4A90E2;
+    }
+
+    p {
+      color: #666;
+      font-size: 1rem;
+      margin: 10px 0;
     }
   }
+
+  //Filtre
+    $primary-color: #4A90E2; 
+    $card-bg-color: linear-gradient(135deg, #f5f7fa, #ffffff); 
+    $card-text-color: #333;
+    $filter-bg-color: #fff;
+    $filter-text-color: #333;
+    $filter-border-color: #ccc;
+    $card-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    $hover-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .filters-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $filter-bg-color;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: $card-shadow;
+    margin-bottom: 20px;
+
+    select, input[type="text"] {
+      background-color: $filter-bg-color;
+      color: $filter-text-color;
+      border: 1px solid $filter-border-color;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+      }
+    }
+
+  }
+
+    // Graph
+    canvas {
+      max-width: 700px;
+      margin: 20px auto; // Centrer le graphique
+      display: block;
+      border: 1px solid #ddd; // Légère bordure
+      border-radius: 10px; // Arrondir les coins
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; // Ombre douce
+      padding: 15px; // Espace intérieur
+      background-color: #f9f9f9; // Fond léger
+      transition: transform 0.3s ease; // Animation pour effet interactif
+    }
+
+
+    //table affichage
+    .table-container {
+      margin: 20px auto;
+      max-width: 90%;
+      background-color: #f9f9f9;
+      border-radius: 12px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+    h3 {
+      text-align: center;
+      font-size: 1.8rem;
+      color: #4A90E2;
+      margin-bottom: 20px;
+    }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 10px;
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #BD46C1;
+      color: white;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    td {
+      color: #333;
+      border-bottom: 1px solid #e0e0e0;
+      cursor: pointer;
+    }
+
+    tr {
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+  }
+
+  .mat-elevation-z8 {
+    border-radius: 8px; // Bordures arrondies
+  }
+}
+
+
+    // Card 
+    $card-bg-color: linear-gradient(135deg, #ededed, #ffffff);
+    $card-text-color: #333;
+    $card-shadow:rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    $card-padding: 15px; // Réduction du padding pour une taille plus compacte
+    $primary-color:#BD46C1;
+   
+    .cards-container {
+      display: flex;
+      justify-content:center;
+      flex-wrap: nowrap; // Pour forcer toutes les cartes sur une ligne
+      gap: 30px; // Réduction de l'écart entre les cartes
+      padding: 20px;
+      overflow-x: auto; // Ajout de défilement horizontal si nécessaire
+    }
+
+    .card {
+      background: $card-bg-color;
+      color: $card-text-color;
+      box-shadow: $card-shadow;
+      padding: $card-padding;
+      border-radius: 12px;
+      text-align: center;
+      flex: 0 0 150px; 
+      max-width: 150px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: translateY(-10px);
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
+      }
+
+      h3 {
+        margin: 10px 0;
+        font-size: 1rem; 
+        font-weight: bold;
+      }
+
+      .icon {
+        font-size: 2rem; 
+        color: $primary-color;
+        margin-bottom: 10px;
+      }
+    }
+}
   
