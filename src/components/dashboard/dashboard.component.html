@@ -1,44 +1,70 @@
 <div class="dashboard">
   <h2>Tableau de bord</h2>
   
+  <!-- Filtres -->
   <label for="category">Filtrer par catégorie :</label>
   <select id="category" [(ngModel)]="selectedCategory" (change)="onCategoryChange(selectedCategory)">
     <option value="all">Toutes les catégories</option>
     <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
   </select>
 
+  <label for="year">Filtrer par année :</label>
+  <select id="year" [(ngModel)]="selectedYear" (change)="onYearChange(selectedYear)">
+    <option value="all">Toutes les années</option>
+    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+  </select>
+
+  <!-- Filtres supplémentaires -->
+  <label for="month" *ngIf="selectedYear !== 'all'">Filtrer par mois :</label>
+  <select id="month" *ngIf="selectedYear !== 'all'" [(ngModel)]="selectedMonth" (change)="onMonthChange(selectedMonth)">
+    <option value="all">Tous les mois</option>
+    <option *ngFor="let month of months" [value]="month">{{ monthNames[month] }}</option>
+  </select>
+
+  <label for="week" *ngIf="selectedMonth !== 'all' && selectedYear !== 'all'">Filtrer par semaine :</label>
+  <select id="week" *ngIf="selectedMonth !== 'all' && selectedYear !== 'all'" [(ngModel)]="selectedWeek" (change)="onWeekChange(selectedWeek)">
+    <option value="all">Toutes les semaines</option>
+    <option *ngFor="let week of availableWeeks" [value]="week">{{ week }}</option>
+  </select>
+
+  <label for="promotion">Filtrer par promotion :</label>
+  <select id="promotion" [(ngModel)]="selectedPromotion" (change)="onPromotionChange(selectedPromotion)">
+    <option value="all">Toutes les promotions</option>
+    <option *ngFor="let promotion of promotions" [value]="promotion">{{ promotion }}</option>
+  </select>
+  
+  <!-- Résultats financiers -->
   <h3>Chiffre d'affaires : {{ totalRevenue | currency:'EUR' }}</h3>
+  <h3>Total des factures : {{ totalInvoices | currency:'EUR' }}</h3>
+  <h3>Marge : {{ margin | currency:'EUR' }}</h3>
+  <h3>Résultat comptable : {{ accountingResult | currency:'EUR' }}</h3>
+  <h3>Impôt sur les sociétés : {{ corporateTax | currency:'EUR' }}</h3>
   
   <canvas id="myChart" width="400" height="200"></canvas>
 
+  <!-- Tableau des ventes -->
   <h3>Données des ventes</h3>
-  <table mat-table [dataSource]="salesData" class="mat-elevation-z8">
-    
+  <table mat-table [dataSource]="filteredSalesData" class="mat-elevation-z8">
     <ng-container matColumnDef="pid">
       <th mat-header-cell *matHeaderCellDef> PID </th>
       <td mat-cell *matCellDef="let item"> {{ item.pid }} </td>
     </ng-container>
-  
     <ng-container matColumnDef="category">
       <th mat-header-cell *matHeaderCellDef> Catégorie </th>
       <td mat-cell *matCellDef="let item"> {{ item.category_name }} </td>
     </ng-container>
-  
     <ng-container matColumnDef="price">
       <th mat-header-cell *matHeaderCellDef> Prix </th>
       <td mat-cell *matCellDef="let item"> {{ item.price | currency:'EUR' }} </td>
     </ng-container>
-  
     <ng-container matColumnDef="quantity">
       <th mat-header-cell *matHeaderCellDef> Quantité </th>
       <td mat-cell *matCellDef="let item"> {{ item.quantity }} </td>
     </ng-container>
-  
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef> Date </th>
       <td mat-cell *matCellDef="let item"> {{ item.date }} </td>
     </ng-container>
-  
     <tr mat-header-row *matHeaderRowDef="['pid', 'category', 'price', 'quantity', 'date']"></tr>
     <tr mat-row *matRowDef="let row; columns: ['pid', 'category', 'price', 'quantity', 'date'];"></tr>
   </table>
