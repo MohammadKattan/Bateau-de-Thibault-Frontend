@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
         return this.http.get<Product[]>(this.apiUrl + '/infoproducts/');
     }
 
-    updateProduct(product: Product): Observable<Product> {
+    updateProductputonsale(product: Product): Observable<Product> {
         return this.http.get<Product>(this.apiUrl + "/putonsale/" + product.tig_id + "/" + product.discount);
     }
     updateProductdecrementStockById(product: Product, quantity: number): Observable<Product> {
