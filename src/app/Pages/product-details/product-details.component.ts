@@ -18,8 +18,10 @@ import { CommonModule } from '@angular/common';
   imports: [MatTableModule, NgIf, NgFor,FormsModule, MatIconModule,CommonModule],
   providers: [DecimalPipe],
 })
+  
 export class ProductDetailsComponent implements OnInit, OnChanges{
   quantityChange: number = 0;
+
 
   // Variables pour savoir quelle checkbox est sélectionnée
   discountError = false;
@@ -30,6 +32,12 @@ export class ProductDetailsComponent implements OnInit, OnChanges{
   quantityInStock!: number ;
   originalProductsList: Product[] = [];
   product = { isEditing: false };
+  categories = [
+    { id: 'all', name: 'All' },
+    { id: 0, name: 'Poisson' },
+    { id: 1, name: 'Fruits de Mer' },
+    { id: 2, name: 'Crustacés' }
+  ];
   constructor(private productsService: ProductsService,private productService: ProductsService,private notificationService: NotificationService) {}
 
   ngOnInit() {

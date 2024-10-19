@@ -1,68 +1,82 @@
-<div class="product-details-container">
-    <p class="title">
-        <i class="fa-solid fa-fish-fins"></i> Tableau détails des produits
-    </p>
+<div class="container-detailsproduct">
+    <section class="product-details">
+        <p class="section-title">
+            <i class="fa-solid fa-fish-fins icon"></i> 
+            Tableau des détails des produits
+        </p>
+        <div class="product-info">
+            <p>
+            Cette section vous permet de consulter les détails des produits en stock, incluant les catégories, les prix, et les quantités disponibles. Utilisez les filtres ci-dessous pour affiner vos recherches.
+            </p>
+        </div>
+    </section>
 
+    <!-- Edit All-->
     <div class="edit-buttons">
-        <h4>All :</h4>
+        <h4 class="edit-title">All:</h4>
         <ng-container>
             <ng-container *ngIf="!product.isEditing; else editField">
-                <button mat-raised-button color="primary" (click)="enableEditModeForAll()">
-                    <mat-icon>edit</mat-icon>
+                <button class="btn btn-tag" (click)="enableEditModeForAll()">
+                    <i class="fas fa-edit"></i> Edit All
                 </button>
             </ng-container>
 
             <ng-template #editField>
-                <button mat-raised-button color="accent" (click)="saveAllProducts()">
-                    <mat-icon>save</mat-icon>
+                <button class="btn btn-tag btn-success" (click)="saveAllProducts()">
+                    <i class="fas fa-save"></i> Save All
                 </button>
-                <button mat-raised-button color="warn" (click)="cancelAllEdits()">
-                    <mat-icon>cancel</mat-icon>
+                <button class="btn btn-tag btn-danger" (click)="cancelAllEdits()">
+                    <i class="fas fa-times"></i> Cancel
                 </button>
             </ng-template>
         </ng-container>
     </div>
 
-    <div class="filter-buttons">
-        <h4>Filtrer par Catégorie :</h4>
-        <button mat-raised-button (click)="filterByCategory('all')" [class.active]="selectedCategory === 'all'">All</button>
-        <button mat-raised-button (click)="filterByCategory(0)" [class.active]="selectedCategory === 0">Poisson</button>
-        <button mat-raised-button (click)="filterByCategory(1)" [class.active]="selectedCategory === 1">Fruits de Mer</button>
-        <button mat-raised-button (click)="filterByCategory(2)" [class.active]="selectedCategory === 2">Crustacés</button>
+    <!-- Filtre -->
+    <div class="filter-container">
+        <h4 class="filter-title">Filtrer par Catégorie :</h4>
+        <div class="chip-list" aria-label="Category selection">
+            <div
+            class="filter-chip"
+            *ngFor="let category of categories"
+            [class.selected]="selectedCategory === category.id"
+            (click)="filterByCategory(category.id)">
+            {{ category.name }}
+            </div>
+        </div>
     </div>
 
-    <table mat-table [dataSource]="productsList" class="mat-elevation-z8">
+    <!-- Table -->
+    <table mat-table [dataSource]="productsList" class="mat-elevation-z8 demo-table shadow-light animated-table">
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Name</th>
-            <td mat-cell *matCellDef="let product" [style.border]="!product.name ? '1px solid #bf1717' : ''" [attr.title]="!product.name ? 'Erreur' : null">
+            <th class="vertical-line --primary-blue-title" mat-header-cell *matHeaderCellDef>Name</th>
+            <td class="vertical-line" mat-cell *matCellDef="let product" [style.border]="!product.name ? '1px solid #bf1717' : ''" [attr.title]="!product.name ? 'Erreur' : null">
                 {{ product.name }}
             </td>
         </ng-container>
 
         <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef>Price</th>
-            <td mat-cell *matCellDef="let product" [style.border]="product.price < 0 ? '1px solid #bf1717' : ''" [attr.title]="product.price < 0 ? 'Erreur' : null">
+            <th class="vertical-line text-center --primary-blue-title" mat-header-cell *matHeaderCellDef>Price</th>
+            <td class="vertical-line text-center" mat-cell *matCellDef="let product" [style.border]="product.price < 0 ? '1px solid #bf1717' : ''" [attr.title]="product.price < 0 ? 'Erreur' : null">
                 <ng-container *ngIf="!product.isEditing; else priceEditField">
                     {{ product.price }}
                 </ng-container>
                 <ng-template #priceEditField>
                     <form (submit)="saveProduct(product); toggleEditMode(product)">
-                        <input type="number" [(ngModel)]="product.price" name="price" required>
+                        <input type="number" class="width-input-max" [(ngModel)]="product.price" name="price" required>
                     </form>
                 </ng-template>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="sale">
-            <th mat-header-cell *matHeaderCellDef>Sale</th>
-            <td mat-cell *matCellDef="let product">
-                {{ product.sale }}
-            </td>
+            <th class="vertical-line text-center --primary-blue-title" mat-header-cell *matHeaderCellDef>Sale</th>
+            <td class="vertical-line text-center" mat-cell *matCellDef="let product">{{ product.sale }}</td>
         </ng-container>
 
         <ng-container matColumnDef="discount">
-            <th mat-header-cell *matHeaderCellDef>Discount</th>
-            <td mat-cell *matCellDef="let product" [style.border]="(product.discount < 0 || product.discount > 100) ? '1px solid #bf1717' : ''" [attr.title]="(product.discount < 0 || product.discount > 100) ? 'Erreur' : null">
+            <th class="vertical-line text-center --primary-blue-title" mat-header-cell *matHeaderCellDef>Discount</th>
+            <td class="vertical-line text-center" mat-cell *matCellDef="let product" [style.border]="(product.discount < 0 || product.discount > 100) ? '1px solid #bf1717' : ''" [attr.title]="(product.discount < 0 || product.discount > 100) ? 'Erreur' : null">
                 <ng-container *ngIf="!product.isEditing; else discountEditField">
                     {{ product.discount }}%
                 </ng-container>
@@ -77,15 +91,13 @@
         </ng-container>
 
         <ng-container matColumnDef="price_on_sale">
-            <th mat-header-cell *matHeaderCellDef>Price on Sale</th>
-            <td mat-cell *matCellDef="let product">
-                {{ calculatePercentageDiscount(product) }}
-            </td>
+            <th class="vertical-line text-center --primary-blue-title" mat-header-cell *matHeaderCellDef>Price on Sale</th>
+            <td class="vertical-line text-center" mat-cell *matCellDef="let product">{{ calculatePercentageDiscount(product) }}</td>
         </ng-container>
 
         <ng-container matColumnDef="quantityInStock">
-            <th mat-header-cell *matHeaderCellDef>Quantity In Stock</th>
-            <td mat-cell *matCellDef="let product">
+            <th class="vertical-line text-center --primary-blue-title" mat-header-cell *matHeaderCellDef>Quantity In Stock</th>
+            <td class="vertical-line text-center" mat-cell *matCellDef="let product">
                 <ng-container *ngIf="!product.isEditing; else quantityEditField">
                     {{ product.quantityInStock }}
                 </ng-container>
@@ -101,30 +113,28 @@
         </ng-container>
 
         <ng-container matColumnDef="comments">
-            <th mat-header-cell *matHeaderCellDef>Comments</th>
-            <td mat-cell *matCellDef="let product">
-                {{ product.comments }}
-            </td>
+            <th class="vertical-line text-center --primary-blue-title" mat-header-cell *matHeaderCellDef>Comments</th>
+            <td class="vertical-line" mat-cell *matCellDef="let product">{{ product.comments }}</td>
         </ng-container>
 
         <ng-container matColumnDef="edit">
-            <th mat-header-cell *matHeaderCellDef>#</th>
-            <td mat-cell *matCellDef="let product">
+            <th class="vertical-line text-center --primary-blue-title font-weight-bold" mat-header-cell *matHeaderCellDef>#</th>
+            <td class="vertical-line text-center" mat-cell *matCellDef="let product">
                 <ng-container *ngIf="product.isEditing; else editIcon">
                     <form (submit)="saveProduct(product); toggleEditMode(product)">
-                        <div>
-                            <button type="submit" mat-icon-button>
-                                <mat-icon>save</mat-icon>
+                        <div style="display: flex;">
+                            <button class="transparent-button" type="submit">
+                                <mat-icon style="color: #2aa053;">save</mat-icon>
                             </button>
-                            <button type="button" mat-icon-button (click)="toggleEditMode(product)">
-                                <mat-icon>cancel</mat-icon>
+                            <button class="transparent-button" type="button" (click)="toggleEditMode(product)">
+                                <mat-icon style="color: #585958;">cancel</mat-icon>
                             </button>
                         </div>
                     </form>
                 </ng-container>
                 <ng-template #editIcon>
-                    <button mat-icon-button (click)="toggleEditMode(product)">
-                        <mat-icon>edit</mat-icon>
+                    <button mat-button class="transparent-button" (click)="toggleEditMode(product)">
+                        <mat-icon class="blue-icon">edit</mat-icon>
                     </button>
                 </ng-template>
             </td>
