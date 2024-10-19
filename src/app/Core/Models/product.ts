@@ -13,5 +13,7 @@ export interface Product{
     owner: string;
     quantityInStock: number;
     isEditing: boolean;
+    operationType: 'add' | 'remove'; 
+    stockChange: number;
     // quantity_sold:number;
 }
