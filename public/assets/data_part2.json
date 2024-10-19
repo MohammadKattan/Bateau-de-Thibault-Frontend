@@ -8,7 +8,8 @@
         "date": "2019-01-01",
         "achat": true,
         "type_promotion": null,
-        "discount": 0
+        "discount": 0,
+        "total_invoice": 5.0
     },
     {
         "pid": 13,
@@ -17,9 +18,10 @@
         "price": 15.0,
         "quantity": 5,
         "date": "2020-05-15",
-        "achat": false,
+        "achat": true,
         "type_promotion": null,
-        "discount": 0
+        "discount": 0,
+        "total_invoice": 30.0
     },
     {
         "pid": 14,
@@ -30,7 +32,8 @@
         "date": "2021-03-22",
         "achat": true,
         "type_promotion": "Promotion de Printemps",
-        "discount": 5
+        "discount": 5,
+        "total_invoice": 15.0
     },
     {
         "pid": 15,
@@ -39,9 +42,10 @@
         "price": 25.0,
         "quantity": 2,
         "date": "2022-06-30",
-        "achat": false,
+        "achat": true,
         "type_promotion": null,
-        "discount": 0
+        "discount": 0,
+        "total_invoice": 12.0
     },
     {
         "pid": 16,
@@ -52,7 +56,8 @@
         "date": "2023-01-10",
         "achat": true,
         "type_promotion": "Prix de fêtes de fin d’année",
-        "discount": 10
+        "discount": 10,
+        "total_invoice": 25.0
     },
     {
         "pid": 17,
@@ -61,9 +66,10 @@
         "price": 35.0,
         "quantity": 6,
         "date": "2023-04-14",
-        "achat": false,
+        "achat": true,
         "type_promotion": null,
-        "discount": 0
+        "discount": 0,
+        "total_invoice": 30.0
     },
     {
         "pid": 18,
@@ -74,7 +80,8 @@
         "date": "2023-07-01",
         "achat": true,
         "type_promotion": null,
-        "discount": 0
+        "discount": 0,
+        "total_invoice": 8.0
     },
     {
         "pid": 19,
@@ -83,9 +90,10 @@
         "price": 45.0,
         "quantity": 2,
         "date": "2023-08-25",
-        "achat": false,
+        "achat": true,
         "type_promotion": null,
-        "discount": 0
+        "discount": 0,
+        "total_invoice": 15.0
     },
     {
         "pid": 20,
@@ -96,7 +104,8 @@
         "date": "2023-09-15",
         "achat": true,
         "type_promotion": "Promotion d’été",
-        "discount": 5
+        "discount": 5,
+        "total_invoice": 20.0
     },
     {
         "pid": 21,
@@ -105,8 +114,117 @@
         "price": 55.0,
         "quantity": 4,
         "date": "2023-10-20",
-        "achat": false,
+        "achat": true,
         "type_promotion": null,
-        "discount": 0
+        "discount": 0,
+        "total_invoice": 18.0
+    },
+    {
+        "pid": 22,
+        "category": 1,
+        "category_name": "Crustacé",
+        "price": 60.0,
+        "quantity": 7,
+        "date": "2023-11-10",
+        "achat": true,
+        "type_promotion": "Promotion d’automne",
+        "discount": 10,
+        "total_invoice": 45.0
+    },
+    {
+        "pid": 23,
+        "category": 2,
+        "category_name": "Coquillage",
+        "price": 65.0,
+        "quantity": 8,
+        "date": "2024-01-05",
+        "achat": true,
+        "type_promotion": null,
+        "discount": 0,
+        "total_invoice": 50.0
+    },
+    {
+        "pid": 24,
+        "category": 0,
+        "category_name": "Poisson",
+        "price": 70.0,
+        "quantity": 5,
+        "date": "2024-02-10",
+        "achat": true,
+        "type_promotion": null,
+        "discount": 0,
+        "total_invoice": 25.0
+    },
+    {
+        "pid": 25,
+        "category": 1,
+        "category_name": "Crustacé",
+        "price": 75.0,
+        "quantity": 3,
+        "date": "2024-03-15",
+        "achat": true,
+        "type_promotion": "Promotion de Printemps",
+        "discount": 5,
+        "total_invoice": 20.0
+    },
+    {
+        "pid": 26,
+        "category": 2,
+        "category_name": "Coquillage",
+        "price": 80.0,
+        "quantity": 2,
+        "date": "2024-04-10",
+        "achat": true,
+        "type_promotion": null,
+        "discount": 0,
+        "total_invoice": 15.0
+    },
+    {
+        "pid": 27,
+        "category": 0,
+        "category_name": "Poisson",
+        "price": 85.0,
+        "quantity": 6,
+        "date": "2024-05-05",
+        "achat": true,
+        "type_promotion": "Promotion de Mai",
+        "discount": 10,
+        "total_invoice": 40.0
+    },
+    {
+        "pid": 28,
+        "category": 1,
+        "category_name": "Crustacé",
+        "price": 90.0,
+        "quantity": 4,
+        "date": "2024-06-01",
+        "achat": true,
+        "type_promotion": null,
+        "discount": 0,
+        "total_invoice": 25.0
+    },
+    {
+        "pid": 29,
+        "category": 2,
+        "category_name": "Coquillage",
+        "price": 95.0,
+        "quantity": 3,
+        "date": "2024-07-10",
+        "achat": true,
+        "type_promotion": "Promotion d’été",
+        "discount": 5,
+        "total_invoice": 20.0
+    },
+    {
+        "pid": 30,
+        "category": 0,
+        "category_name": "Poisson",
+        "price": 100.0,
+        "quantity": 10,
+        "date": "2024-08-15",
+        "achat": true,
+        "type_promotion": null,
+        "discount": 0,
+        "total_invoice": 50.0
     }
 ]
