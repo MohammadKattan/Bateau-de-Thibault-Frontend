@@ -7,21 +7,22 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { DecimalPipe } from '@angular/common';
 import { catchError } from 'rxjs';
+import { NotificationService } from '../../Core/Services/NotificationService';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-details-produits',
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss',
   standalone: true,
-  imports: [MatTableModule, NgIf, NgFor,FormsModule, MatIconModule],
+  imports: [MatTableModule, NgIf, NgFor,FormsModule, MatIconModule,CommonModule],
   providers: [DecimalPipe],
 })
 export class ProductDetailsComponent implements OnInit, OnChanges{
   quantityChange: number = 0;
 
   // Variables pour savoir quelle checkbox est sélectionnée
-  isIncrementing: boolean = false;
-  isDecrementing: boolean = false;
+  discountError = false;
   productsList: Product[] = [];
   productsCrustacesList: Product[] = [];
   selectedProduct: Product | undefined;
@@ -29,7 +30,7 @@ export class ProductDetailsComponent implements OnInit, OnChanges{
   quantityInStock!: number ;
   originalProductsList: Product[] = [];
   product = { isEditing: false };
-  constructor(private productsService: ProductsService,private productService: ProductsService) {}
+  constructor(private productsService: ProductsService,private productService: ProductsService,private notificationService: NotificationService) {}
 
   ngOnInit() {
     this.productsService.getProductsFromJson().subscribe((data) => {
@@ -42,13 +43,6 @@ export class ProductDetailsComponent implements OnInit, OnChanges{
   ngOnChanges() {
     console.log('helloooo ');
   }
-  onCheckboxChange(action: 'increment' | 'decrement') {
-    if (action === 'increment') {
-      this.isDecrementing = false; // Désactiver la décrémentation
-    } else if (action === 'decrement') {
-      this.isIncrementing = false; // Désactiver l'incrémentation
-    }
-  }
 
   getProduit(id: number): Product | undefined {
     return this.productsList.find(product => product.id === id);
@@ -59,67 +53,75 @@ export class ProductDetailsComponent implements OnInit, OnChanges{
   
   toggleEditMode(product: any) {
     product.isEditing = !product.isEditing;
+    product.stockChange = 0;
     this.quantityInStock =  product.quantityInStock;
   }
 
   saveProduct(product: Product) {
-    if (this.isIncrementing) {
-      this.incrementStock(product, this.quantityChange);
-    } else if (this.isDecrementing) {
-      this.decrementStock(product, this.quantityChange);
-    } else {
-      console.error("Aucune action sélectionnée (ni incrémenter ni décrémenter).");
+    this.logQuantities(product);
+    this.updateProduct(product);
+
+  if (product.stockChange!==0) {
+    if (product.operationType==='add') {
+      this.incrementStock(product, product.stockChange);
+    }else if (product.operationType==='remove') {
+      this.decrementStock(product, product.stockChange);
     }
-
-    this.updateProductIfNeeded(product); // Mise à jour du produit si nécessaire
   }
-
-  updateProductIfNeeded(product: Product) {
-    this.productService.updateProductputonsale(product)
-      .pipe(
-        catchError((error) => {
-          console.error('Erreur lors de la mise à jour du produit', error);
-          throw error;
-        })
-      )
-      .subscribe(
-        (updatedProduct) => {
-          console.log('Produit mis à jour avec succès', updatedProduct);
-        }
-      );
-  }
-
-  incrementStock(product: Product, value: number) {
-    this.productService.updateProductincrementStockById(product, value)
-      .pipe(
-        catchError((error) => {
-          console.error('Erreur lors de la mise à jour du produit', error);
-          throw error;
-        })
-      )
-      .subscribe(
-        (updatedProduct) => {
-          console.log('Stock incrémenté avec succès', updatedProduct);
-          product.quantityInStock += value;
-        }
-      );
 }
 
-decrementStock(product: Product, value: number) {
-    this.productService.updateProductdecrementStockById(product, value)
-      .pipe(
-        catchError((error) => {
-          console.error('Erreur lors de la mise à jour du produit', error);
-          throw error;
-        })
-      )
-      .subscribe(
-        (updatedProduct) => {
-          console.log('Stock décrémenté avec succès', updatedProduct);
-        }
-      );
+// 1. Fonction pour afficher les quantités
+logQuantities(product: Product) {
+  console.log(product.quantityInStock);
+  console.log(this.quantityInStock);
 }
 
+// 2. Fonction pour mettre à jour le produit en promotion
+updateProduct(product: Product) {
+  this.productService.updateProductputonsale(product)
+    .pipe(
+      catchError((error) => {
+        console.error('Erreur lors de la mise à jour du produit', error);
+        throw error;
+      })
+    )
+    .subscribe((updatedProduct) => {
+      console.log('Produit mis à jour avec succès', updatedProduct);
+      this.notificationService.showNotification(`${product.name} a été modifié avec succès !`);
+    });
+}
+// 6. Décrémente le stock
+decrementStock(product: Product, difference: number) {
+  console.log('Décrémentation du stock de', difference);
+  this.productService.updateProductdecrementStockById(product, difference)
+    .pipe(
+      catchError((error) => {
+        console.error('Erreur lors de la mise à jour du produit', error);
+        throw error;
+      })
+    )
+    .subscribe((updatedProduct) => {
+      console.log('Produit mis à jour avec succès', updatedProduct);
+      product.quantityInStock -= difference;
+    });
+}
+
+// 7. Incrémente le stock
+incrementStock(product: Product, difference: number) {
+  console.log('Incrémentation du stock de', difference);
+  this.productService.updateProductincrementStockById(product, difference)
+    .pipe(
+      catchError((error) => {
+        console.error('Erreur lors de la mise à jour du produit', error);
+        throw error;
+      })
+    )
+    .subscribe((updatedProduct) => {
+      console.log('Produit mis à jour avec succès', updatedProduct);
+      product.quantityInStock += difference;
+    });
+}
+  
   enableEditModeForAll() {
     this.product.isEditing = true;
     for (const product of this.productsList) {
@@ -178,5 +180,19 @@ filterByCategory(category: number | string): void {
   this.filterProducts();
 }
 
+  validateDiscountInput(event: KeyboardEvent, product: Product) {
+    const inputValue = (event.target as HTMLInputElement).value;
+
+    // Permet les touches utiles comme Backspace, Tab, Delete, etc.
+    const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'];
+
+    // Bloque la saisie si la valeur dépasse 100
+    if (!allowedKeys.includes(event.key) && Number(inputValue + event.key) > 100) {
+      event.preventDefault(); // Empêche la saisie au-delà de 100
+    }
+  }
+  resetStockChange(product: Product) {
+    product.stockChange = 0; // Réinitialise la valeur à null ou à une valeur par défaut
+}
 }
 
