@@ -33,15 +33,16 @@ export class ProductDetailsComponent implements OnInit, OnChanges{
   constructor(private productsService: ProductsService,private productService: ProductsService,private notificationService: NotificationService) {}
 
   ngOnInit() {
-    this.productsService.getProductsFromJson().subscribe((data) => {
+    this.getProducts()
+  }
+  getProducts() {
+  this.productsService.getProductsFromJson().subscribe((data) => {
       this.productsList = data;
       this.originalProductsList = data;
     });
-  }
-
+}
     
   ngOnChanges() {
-    console.log('helloooo ');
   }
 
   getProduit(id: number): Product | undefined {
