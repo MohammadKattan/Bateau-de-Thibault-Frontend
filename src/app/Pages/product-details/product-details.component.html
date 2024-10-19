@@ -76,7 +76,7 @@
 
         <ng-container matColumnDef="discount">
             <th class="vertical-line text-center --primary-blue-title" mat-header-cell *matHeaderCellDef>Discount</th>
-            <td class="vertical-line text-center" mat-cell *matCellDef="let product" [style.border]="(product.discount < 0 || product.discount > 100) ? '1px solid #bf1717' : ''" [attr.title]="(product.discount < 0 || product.discount > 100) ? 'Erreur' : null">
+           <td class="vertical-line text-center" mat-cell *matCellDef="let product" [ngStyle]="{'background-color': (product.discount < 0 || product.discount > 100) ? '#ffcccc' : '','color': (product.discount < 0 || product.discount > 100) ? '#a60000' : ''}" [attr.title]="(product.discount < 0 || product.discount > 100) ? 'Erreur' : null">              
                 <ng-container *ngIf="!product.isEditing; else discountEditField">
                     {{ product.discount }}%
                 </ng-container>
