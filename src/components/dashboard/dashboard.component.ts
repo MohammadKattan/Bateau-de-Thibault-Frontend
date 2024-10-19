@@ -54,6 +54,7 @@ export class DashboardComponent implements AfterViewInit {
       this.salesData = data;
       this.promotions = [...new Set(data.map(item => item.type_promotion))];
       this.applyFilters();
+      this.createChart();
     });
   }
   ngAfterViewInit(): void {
@@ -68,7 +69,9 @@ export class DashboardComponent implements AfterViewInit {
       .filter(item => this.selectedMonth === 'all' || new Date(item.date).getMonth() === +this.selectedMonth)
       .filter(item => this.selectedWeek === 'all' || this.getWeekNumber(new Date(item.date)) === +this.selectedWeek)
       .filter(item => this.selectedQuarter === 'all' || this.getQuarter(new Date(item.date)) === this.selectedQuarter)
-      .filter(item => this.selectedPromotion === 'all' || item.type_promotion === this.selectedPromotion);
+      .filter(item => this.selectedPromotion === 'all' || item.type_promotion === this.selectedPromotion)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
 
     this.calculateRevenue();
     this.calculateMarginAndTaxes();
