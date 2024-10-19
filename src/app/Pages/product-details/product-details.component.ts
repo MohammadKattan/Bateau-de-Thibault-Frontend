@@ -1,63 +1,74 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { ProductsService } from '../../Core/Services/products.service';
 import { Product } from '../../Core/Models/product';
-import {NgIf, NgFor} from '@angular/common';
-import {MatTableModule} from '@angular/material/table';
+import { NgIf, NgFor } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { DecimalPipe } from '@angular/common';
 import { catchError } from 'rxjs';
+import { MatChipsModule } from '@angular/material/chips';
+
 
 @Component({
   selector: 'app-details-produits',
   templateUrl: './product-details.component.html',
-  styleUrl: './product-details.component.scss',
+  styleUrls: ['./product-details.component.scss'], // Correction ici
   standalone: true,
-  imports: [MatTableModule, NgIf, NgFor,FormsModule, MatIconModule],
+  imports: [
+    MatTableModule,
+    NgIf,
+    NgFor,
+    FormsModule,
+    MatIconModule,
+    MatChipsModule
+  ],
   providers: [DecimalPipe],
 })
-export class ProductDetailsComponent implements OnInit, OnChanges{
+export class ProductDetailsComponent implements OnInit, OnChanges {
+  categories = [
+    { id: 'all', name: 'All' },
+    { id: 0, name: 'Poisson' },
+    { id: 1, name: 'Fruits de Mer' },
+    { id: 2, name: 'Crustacés' }
+  ];
+
   productsList: Product[] = [];
-  productsCrustacesList: Product[] = [];
+  originalProductsList: Product[] = [];
   selectedProduct: Product | undefined;
   selectedCategory: number | string = 'all';
-  quantityInStock!: number ;
-  originalProductsList: Product[] = [];
+  quantityInStock!: number;
   product = { isEditing: false };
-  constructor(private productsService: ProductsService,private productService: ProductsService) {}
+
+  constructor(private productsService: ProductsService) {}
 
   ngOnInit() {
+    // Récupère les produits depuis le service
     this.productsService.getProductsFromJson().subscribe((data) => {
       this.productsList = data;
-      this.originalProductsList = data;
+      this.originalProductsList = data; // Conserve la liste originale pour le filtrage
     });
   }
 
-    
   ngOnChanges() {
-    console.log('helloooo ');
+    console.log('Composant mis à jour');
   }
 
   getProduit(id: number): Product | undefined {
-    return this.productsList.find(product => product.id === id);
+    return this.productsList.find((product) => product.id === id);
   }
-  getProductCrustacesList(id: number): Product | undefined {
-    return this.productsCrustacesList.find(product => product.id === id);
-  }
-  
-  toggleEditMode(product: any) {
+
+  toggleEditMode(product: Product) {
     product.isEditing = !product.isEditing;
-    this.quantityInStock =  product.quantityInStock;
+    this.quantityInStock = product.quantityInStock;
   }
 
   saveProduct(product: Product) {
-    console.log(product.quantityInStock);
-    console.log(this.quantityInStock);
-    this.productService.updateProduct(product)
+    this.productsService.updateProduct(product)
       .pipe(
         catchError((error) => {
           console.error('Erreur lors de la mise à jour du produit', error);
-          throw error; // Propagez l'erreur pour la gérer ailleurs si nécessaire
+          throw error;
         })
       )
       .subscribe(
@@ -66,107 +77,81 @@ export class ProductDetailsComponent implements OnInit, OnChanges{
         }
       );
 
-      if(this.quantityInStock != product.quantityInStock ) {
-        if((product.quantityInStock - this.quantityInStock ) < 0) {
-          const valeur = (this.quantityInStock - product.quantityInStock);
-          console.log('Math.abs(valeur)' + Math.abs(valeur));
-          console.log('valeur' + valeur);
+    if (this.quantityInStock !== product.quantityInStock) {
+      const stockDifference = this.quantityInStock - product.quantityInStock;
 
-          this.productService.updateProductdecrementStockById(product, Math.abs(valeur))
-            .pipe(
-              catchError((error) => {
-                console.error('Erreur lors de la mise à jour du produit', error);
-                throw error;
-              })
-            )
-            .subscribe(
-              (updatedProduct) => {
-
-                console.log('Produit mis à jour avec succès', updatedProduct);
-              }
-            );
-
-        } else {
-
-          const valeur = (this.quantityInStock - product.quantityInStock);
-          this.productService.updateProductincrementStockById(product, Math.abs(valeur))
+      if (stockDifference > 0) {
+        this.productsService.updateProductdecrementStockById(product, Math.abs(stockDifference))
           .pipe(
             catchError((error) => {
-              console.error('Erreur lors de la mise à jour du produit', error);
+              console.error('Erreur lors de la diminution du stock', error);
               throw error;
             })
           )
           .subscribe(
             (updatedProduct) => {
-
-              console.log('Produit mis à jour avec succès', updatedProduct);
+              console.log('Stock décrémenté avec succès', updatedProduct);
             }
           );
-
-        }
-
+      } else {
+        this.productsService.updateProductincrementStockById(product, Math.abs(stockDifference))
+          .pipe(
+            catchError((error) => {
+              console.error('Erreur lors de l\'incrémentation du stock', error);
+              throw error;
+            })
+          )
+          .subscribe(
+            (updatedProduct) => {
+              console.log('Stock incrémenté avec succès', updatedProduct);
+            }
+          );
       }
-
-
+    }
   }
 
   enableEditModeForAll() {
     this.product.isEditing = true;
-    for (const product of this.productsList) {
+    this.productsList.forEach((product) => {
       product.isEditing = true;
-    }
-    for (const product of this.productsCrustacesList) {
-      product.isEditing = true;
-    }
+    });
   }
 
   saveAllProducts() {
-    for (const product of this.productsList) {
+    this.productsList.forEach((product) => {
       if (product.isEditing) {
         this.saveProduct(product);
         this.toggleEditMode(product);
       }
-    }
+    });
   }
 
   cancelAllEdits() {
     this.product.isEditing = false;
-    for (const product of this.productsList) {
+    this.productsList.forEach((product) => {
       if (product.isEditing) {
         this.toggleEditMode(product);
       }
+    });
+  }
+
+  calculatePercentageDiscount(product: Product): number {
+    const discountAmount = product.price - (product.price * (product.discount / 100));
+    return parseFloat(discountAmount.toFixed(2)); // Retourne le montant après réduction
+  }
+
+  // Fonction de filtrage par catégorie
+  filterByCategory(categoryId: string | number) {
+    this.selectedCategory = categoryId;
+
+    if (categoryId === 'all') {
+      // Si 'all' est sélectionné, afficher tous les produits
+      this.productsList = [...this.originalProductsList];
+    } else {
+      // Sinon, filtrer par catégorie
+      this.productsList = this.originalProductsList.filter(
+        (product) => product.category === categoryId
+      );
     }
-    for (const product of this.productsCrustacesList) {
-      if (product.isEditing) {
-        this.toggleEditMode(product);
-      }
-    }
-}
-
-calculatePercentageDiscount(product: Product): number {
-
-  const discountAmount = (product.price -(product.price * (product.discount / 100)) );
-
-  const roundedDiscountAmount = discountAmount.toFixed(2);
-
-  return parseFloat(roundedDiscountAmount);
-}
-
-
-
-filterProducts(): void {
-  if (this.selectedCategory === 'all') {
-    // Si 'all' est sélectionné, affichez la liste complète
-    this.productsList = this.originalProductsList;
-  } else {
-    // Sinon, filtrez les produits en fonction de la catégorie
-    this.productsList = this.originalProductsList.filter(product => product.category === this.selectedCategory);
   }
 }
-filterByCategory(category: number | string): void {
-  this.selectedCategory = category;
-  this.filterProducts();
-}
-
-}
-

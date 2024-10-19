@@ -1,12 +1,33 @@
-<p class="font-weight-bold --warning-color "><i class="fa-solid fa-fish-fins"></i>Tableau details des produits</p>
-<div style="display: flex; align-items: center; justify-content: start;">
-    <h4 style="margin-top: 15px; padding: 2px;">Filtrer par Catégorie:</h4>
-    <button mat-raised-button class="filtre-button" (click)="filterByCategory('all')" [class.active]="selectedCategory === 'all'">All</button>
-    <button mat-raised-button class="filtre-button" (click)="filterByCategory(0)" [class.active]="selectedCategory === 0">Poisson</button>
-    <button mat-raised-button class="filtre-button" (click)="filterByCategory(1)" [class.active]="selectedCategory === 1">Fruits de Mer</button>
-    <button mat-raised-button class="filtre-button" (click)="filterByCategory(2)" [class.active]="selectedCategory === 2">Crustacés</button>
+<div class="container-detailsproduct">
+<section class="product-details">
+  <p class="section-title">
+    <i class="fa-solid fa-fish-fins icon"></i> 
+    Tableau des détails des produits
+  </p>
+
+  <div class="product-info">
+    <p>
+      Cette section vous permet de consulter les détails des produits en stock, incluant les catégories, les prix, et les quantités disponibles. Utilisez les filtres ci-dessous pour affiner vos recherches.
+    </p>
+  </div>
+</section>
+
+<!-- Filtre -->
+<div class="filter-container">
+  <h4 class="filter-title">Filtrer par Catégorie :</h4>
+  <div class="chip-list" aria-label="Category selection">
+    <div
+      class="filter-chip"
+      *ngFor="let category of categories"
+      [class.selected]="selectedCategory === category.id"
+      (click)="filterByCategory(category.id)">
+      {{ category.name }}
+    </div>
+  </div>
 </div>
-<table mat-table [dataSource]="productsList" class="mat-elevation-z8 demo-table shadow-light">
+
+<!-- Table -->
+<table mat-table [dataSource]="productsList" class="mat-elevation-z8 demo-table shadow-light animated-table">
     <ng-container matColumnDef="name">
         <th class="vertical-line --primary-blue-title" mat-header-cell *matHeaderCellDef>Name</th>
         <td class="vertical-line" mat-cell *matCellDef="let product" [style.border]="!product.name ? '1px solid #bf1717' : ''" [attr.title]="!product.name ? 'Errrrreuur' : null">
@@ -128,3 +149,4 @@
     <tr mat-header-row *matHeaderRowDef="[ 'name', 'price','sale', 'discount','price_on_sale',  'quantityInStock', 'comments' ,'edit',]"></tr>
     <tr mat-row *matRowDef="let row; columns: [ 'name', 'price','sale', 'discount', 'price_on_sale', 'quantityInStock', 'comments' ,'edit',]"></tr>
 </table>
+</div>
