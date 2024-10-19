@@ -226,5 +226,53 @@
         "type_promotion": null,
         "discount": 0,
         "total_invoice": 50.0
+    },
+    {
+        "pid": 31,
+        "category": 1,
+        "category_name": "Crustacé",
+        "price": 120.0,
+        "quantity": 2,
+        "date": "2024-09-15",
+        "achat": true,
+        "type_promotion": null,
+        "discount": 0,
+        "total_invoice": 250.0
+    },
+    {
+        "pid": 32,
+        "category": 2,
+        "category_name": "Coquillage",
+        "price": 30.0,
+        "quantity": 10,
+        "date": "2024-10-20",
+        "achat": true,
+        "type_promotion": null,
+        "discount": 0,
+        "total_invoice": 80.0
+    },
+    {
+        "pid": 33,
+        "category": 0,
+        "category_name": "Poisson",
+        "price": 10.0,
+        "quantity": 10,
+        "date": "2024-11-01",
+        "achat": true,
+        "type_promotion": null,
+        "discount": 0,
+        "total_invoice": 20.0
+    },
+    {
+        "pid": 34,
+        "category": 1,
+        "category_name": "Crustacé",
+        "price": 10.0,
+        "quantity": 10,
+        "date": "2024-11-05",
+        "achat": true,
+        "type_promotion": null,
+        "discount": 0,
+        "total_invoice": 10.0
     }
 ]
