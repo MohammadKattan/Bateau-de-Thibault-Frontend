@@ -1,7 +1,19 @@
 <mat-toolbar color="primary" class="custom-toolbar">
-  <span class="title">Bateau de Thibault</span>
+  <span class="title">
+    <mat-icon class="logo-icon">sailing</mat-icon> 
+    Bateau de Thibault
+  </span>
   <span class="spacer"></span>
-  <a mat-button routerLink="" class="nav-link">Accueil</a>
-  <a mat-button routerLink="/details-produits">Details Produits</a>
-  <a mat-button routerLink="/Dashboard-Component" class="nav-link">Stats</a>
+  <a mat-button routerLink="/" class="nav-link">
+    <mat-icon>home</mat-icon> 
+    Accueil
+  </a>
+  <a mat-button routerLink="/details-produits" class="nav-link">
+    <mat-icon>inventory</mat-icon> 
+    Détails Produits
+  </a>
+  <a mat-button routerLink="/Dashboard-Component" class="nav-link">
+    <mat-icon>bar_chart</mat-icon> 
+    Stats
+  </a>
 </mat-toolbar>
