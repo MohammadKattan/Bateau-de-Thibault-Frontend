@@ -7,7 +7,6 @@
     text-align: center;
     transition: box-shadow 0.3s ease;
 
-
     h3 {
       font-size: 1.8rem;
       color: #4A90E2;
@@ -24,44 +23,52 @@
     $primary-color: #4A90E2; 
     $card-bg-color: linear-gradient(135deg, #f5f7fa, #ffffff); 
     $card-text-color: #333;
-    $filter-bg-color: #fff;
+    $filter-bg-color: #ffffff;
     $filter-text-color: #333;
     $filter-border-color: #ccc;
     $card-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     $hover-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
+    $primary-color: #007bff; /* Couleur primaire pour le focus */
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-  }
-
-  .filters-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: $filter-bg-color;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: $card-shadow;
-    margin-bottom: 20px;
-
-    select, input[type="text"] {
-      background-color: $filter-bg-color;
-      color: $filter-text-color;
-      border: 1px solid $filter-border-color;
-      padding: 10px;
-      border-radius: 6px;
-      font-size: 1rem;
-      transition: border-color 0.3s ease;
-
-      &:focus {
-        outline: none;
-        border-color: $primary-color;
-      }
+    .container {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
     }
 
-  }
+    .filters-container {
+        display: grid; /* Passer à une grille */
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Grille réactive avec colonnes flexibles */
+        gap: 20px; /* Espacement entre les éléments de la grille */
+        background-color: $filter-bg-color;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: $card-shadow;
+        margin-bottom: 20px;
+
+    select, input[type="text"] {
+        background-color: $filter-bg-color;
+        color: $filter-text-color;
+        border: 1px solid $filter-border-color;
+        border-radius: 6px;
+        font-size: 1rem;
+        padding: 10px 15px; /* Ajout de remplissage */
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        width: 100%; /* Remplir le conteneur */
+        appearance: none; /* Supprimer l'apparence par défaut */
+        background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"%3E%3Cpath fill="%23333" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/%3E%3C/svg%3E'); /* Icône de flèche */
+        background-repeat: no-repeat;
+        background-position: right 10px center; /* Position de l'icône de flèche */
+        background-size: 12px; /* Taille de l'icône de flèche */
+        
+        &:focus {
+            outline: none;
+            border-color: $primary-color;
+            box-shadow: 0 0 5px $primary-color; /* Ombre au focus */
+        }
+    }
+}
+
 
     // Graph
     canvas {
