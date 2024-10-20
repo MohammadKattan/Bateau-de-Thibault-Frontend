@@ -69,6 +69,7 @@ export class ProductDetailsComponent implements OnInit, OnChanges{
   saveProduct(product: Product) {
     this.logQuantities(product);
     this.updateProduct(product);
+    this.updatePrice(product)
 
   if (product.stockChange!==0) {
     if (product.operationType==='add') {
@@ -130,7 +131,20 @@ incrementStock(product: Product, difference: number) {
       product.quantityInStock += difference;
     });
 }
-  
+
+  updatePrice(product: Product) {
+  this.productService.updateProductPriceById(product)
+    .pipe(
+      catchError((error) => {
+        console.error('Erreur lors de la mise à jour du produit', error);
+        throw error;
+      })
+    )
+    .subscribe((updatedProduct) => {
+      console.log('Produit mis à jour avec succès', updatedProduct);
+      this.notificationService.showNotification(`${product.name} a été modifié avec succès !`);
+    });
+}
   enableEditModeForAll() {
     this.product.isEditing = true;
     for (const product of this.productsList) {
@@ -201,7 +215,7 @@ filterByCategory(category: number | string): void {
     }
   }
   resetStockChange(product: Product) {
-    product.stockChange = 0; // Réinitialise la valeur à null ou à une valeur par défaut
-}
+    product.stockChange = 0;
+  }
 }
 
