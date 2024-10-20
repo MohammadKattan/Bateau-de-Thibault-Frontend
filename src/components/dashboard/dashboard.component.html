@@ -28,6 +28,7 @@
       <option *ngFor="let quarter of quarters" [value]="quarter">{{ quarter }}</option>
     </select>
 
+  
 
     <label for="month" *ngIf="selectedYear !== 'all'">Filtrer par mois </label>
     <select id="month" *ngIf="selectedYear !== 'all'" [(ngModel)]="selectedMonth" (change)="onMonthChange(selectedMonth)">
@@ -48,6 +49,8 @@
     </select>
   </div>
   
+
+
   <!-- Résultats financiers -->
   <div class="cards-container">
     <div class="card">
