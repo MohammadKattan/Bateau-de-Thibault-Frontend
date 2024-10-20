@@ -32,5 +32,7 @@ import { Observable } from 'rxjs';
     getProductImageById(product: Product, quantity: number): Observable<Product> {
         return this.http.get<Product>(this.apiUrl + "/myImage/" + product.tig_id + "/" + quantity);
     }
-
+    updateProductPriceById(product: Product): Observable<Product> {
+        return this.http.get<Product>(this.apiUrl + "/updatePrice/" + product.tig_id + "/" + product.price);
+    }
 }

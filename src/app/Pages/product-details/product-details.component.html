@@ -11,41 +11,43 @@
         </div>
     </section>
 
-    <!-- Edit All-->
-    <div class="edit-buttons">
-        <h4 class="edit-title">All:</h4>
-        <ng-container>
-            <ng-container *ngIf="!product.isEditing; else editField">
-                <button class="btn btn-tag" (click)="enableEditModeForAll()">
-                    <i class="fas fa-edit"></i> Edit All
-                </button>
-            </ng-container>
-
-            <ng-template #editField>
-                <button class="btn btn-tag btn-success" (click)="saveAllProducts()">
-                    <i class="fas fa-save"></i> Save All
-                </button>
-                <button class="btn btn-tag btn-danger" (click)="cancelAllEdits()">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
-            </ng-template>
-        </ng-container>
-    </div>
+    
 
     <!-- Filtre -->
-    <div class="filter-container">
-        <h4 class="filter-title">Filtrer par Catégorie :</h4>
-        <div class="chip-list" aria-label="Category selection">
-            <div
-            class="filter-chip"
-            *ngFor="let category of categories"
-            [class.selected]="selectedCategory === category.id"
-            (click)="filterByCategory(category.id)">
-            {{ category.name }}
+     <div class="filtre-edit-cont">
+        <div class="filter-container">
+            <h4 class="filter-title">Filtrer par Catégorie :</h4>
+            <div class="chip-list" aria-label="Category selection">
+                <div
+                class="filter-chip"
+                *ngFor="let category of categories"
+                [class.selected]="selectedCategory === category.id"
+                (click)="filterByCategory(category.id)">
+                {{ category.name }}
+                </div>
             </div>
         </div>
-    </div>
+        <!-- Edit All-->
+        <div class="edit-buttons">
+            <h4 class="edit-title">All:</h4>
+            <ng-container>
+                <ng-container *ngIf="!product.isEditing; else editField">
+                    <button class="btn btn-tag" (click)="enableEditModeForAll()">
+                        <i class="fas fa-edit"></i> Edit All
+                    </button>
+                </ng-container>
 
+                <ng-template #editField>
+                    <button class="btn btn-tag btn-success" (click)="saveAllProducts()">
+                        <i class="fas fa-save"></i> Save All
+                    </button>
+                    <button class="btn btn-tag btn-danger" (click)="cancelAllEdits()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </ng-template>
+            </ng-container>
+        </div>
+    </div>
     <!-- Table -->
     <table mat-table [dataSource]="productsList" class="mat-elevation-z8 demo-table shadow-light animated-table">
         <ng-container matColumnDef="name">
@@ -76,7 +78,7 @@
 
         <ng-container matColumnDef="discount">
             <th class="vertical-line text-center --primary-blue-title" mat-header-cell *matHeaderCellDef>Discount</th>
-            <td class="vertical-line text-center" mat-cell *matCellDef="let product" [style.border]="(product.discount < 0 || product.discount > 100) ? '1px solid #bf1717' : ''" [attr.title]="(product.discount < 0 || product.discount > 100) ? 'Erreur' : null">
+           <td class="vertical-line text-center" mat-cell *matCellDef="let product" [ngStyle]="{'background-color': (product.discount < 0 || product.discount > 100) ? '#ffcccc' : '','color': (product.discount < 0 || product.discount > 100) ? '#a60000' : ''}" [attr.title]="(product.discount < 0 || product.discount > 100) ? 'Erreur' : null">              
                 <ng-container *ngIf="!product.isEditing; else discountEditField">
                     {{ product.discount }}%
                 </ng-container>

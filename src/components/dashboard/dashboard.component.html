@@ -8,13 +8,13 @@
   <!-- Section des filtres -->
 <div class="container">
   <div class="filters-container">
-    <label for="category">Filtrer par catégorie :</label>
+    <label for="category">Filtrer par catégorie </label>
     <select id="category" [(ngModel)]="selectedCategory" (change)="onCategoryChange(selectedCategory)">
       <option value="all">Toutes les catégories</option>
       <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
     </select>
 
-    <label for="year">Filtrer par année :</label>
+    <label for="year">Filtrer par année </label>
     <select id="year" [(ngModel)]="selectedYear" (change)="onYearChange(selectedYear)">
       <option value="all">Toutes les années</option>
       <option *ngFor="let year of years" [value]="year">{{ year }}</option>
@@ -22,26 +22,26 @@
 
     <!-- Filtres supplémentaires -->
 
-    <label for="quarter">Filtrer par trimestre :</label>
+    <label for="quarter">Filtrer par trimestre </label>
     <select id="quarter" [(ngModel)]="selectedQuarter" (change)="onQuarterChange(selectedQuarter)">
       <option value="all">Tous les trimestres</option>
       <option *ngFor="let quarter of quarters" [value]="quarter">{{ quarter }}</option>
     </select>
 
 
-    <label for="month" *ngIf="selectedYear !== 'all'">Filtrer par mois :</label>
+    <label for="month" *ngIf="selectedYear !== 'all'">Filtrer par mois </label>
     <select id="month" *ngIf="selectedYear !== 'all'" [(ngModel)]="selectedMonth" (change)="onMonthChange(selectedMonth)">
       <option value="all">Tous les mois</option>
       <option *ngFor="let month of months" [value]="month">{{ monthNames[month] }}</option>
     </select>
 
-    <label for="week" *ngIf="selectedMonth !== 'all' && selectedYear !== 'all'">Filtrer par semaine :</label>
+    <label for="week" *ngIf="selectedMonth !== 'all' && selectedYear !== 'all'">Filtrer par semaine </label>
     <select id="week" *ngIf="selectedMonth !== 'all' && selectedYear !== 'all'" [(ngModel)]="selectedWeek" (change)="onWeekChange(selectedWeek)">
       <option value="all">Toutes les semaines</option>
       <option *ngFor="let week of availableWeeks" [value]="week">{{ week }}</option>
     </select>
 
-    <label for="promotion">Filtrer par promotion :</label>
+    <label for="promotion">Filtrer par promotion </label>
     <select id="promotion" [(ngModel)]="selectedPromotion" (change)="onPromotionChange(selectedPromotion)">
       <option value="all">Toutes les promotions</option>
       <option *ngFor="let promotion of promotions" [value]="promotion">{{ promotion }}</option>
