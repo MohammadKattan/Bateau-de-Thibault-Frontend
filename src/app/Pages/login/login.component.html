@@ -1,0 +1,40 @@
+<div class="login-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>login</mat-icon> Se connecter
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form>
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [(ngModel)]="email" name="email" placeholder="Entrez votre email" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput type="password" [(ngModel)]="password" name="password" placeholder="Entrez votre mot de passe" required>
+        </mat-form-field>
+
+        <!-- Gestion des erreurs -->
+        <div class="error-message" *ngIf="errorMessage">
+          <mat-error>{{ errorMessage }}</mat-error>
+        </div>
+
+        <div class="login-actions">
+          <button mat-raised-button color="primary" (click)="onLogin()">Se connecter</button>
+        </div>
+      </form>
+    </mat-card-content>
+
+    <!--
+    <mat-card-actions>
+      <button mat-button (click)="onLogout()">
+        <mat-icon>logout</mat-icon> Se déconnecter
+      </button>
+    </mat-card-actions>
+-->
+  </mat-card>
+</div>

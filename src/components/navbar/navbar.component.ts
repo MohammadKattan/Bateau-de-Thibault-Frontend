@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { routes } from '../../app/app.routes';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { LoginService } from '../../app/Core/Services/login.service';
 
 @Component({
   selector: 'app-navbar',
@@ -23,4 +24,11 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class NavbarComponent {
 
+  // Injection de LoginService via le constructeur
+  constructor(public loginService: LoginService) {}
+
+  // Méthode pour se déconnecter
+  logout() {
+    this.loginService.logout();  // Correction ici : loginService avec minuscule
+  }
 }

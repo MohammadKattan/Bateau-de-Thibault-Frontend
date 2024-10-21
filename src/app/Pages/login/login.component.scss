@@ -1,0 +1,114 @@
+// Style du conteneur principal
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #fff; 
+}
+
+// Style de la carte (formulaire)
+mat-card {
+  width: 400px;
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+  border-radius: 12px; 
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  
+  &:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); 
+  }
+}
+
+// Style de l'en-tête du formulaire
+mat-card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  
+  mat-card-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+  }
+
+  mat-icon {
+    color: #3f51b5; 
+    font-size: 36px;
+  }
+}
+
+// Style des champs de formulaire
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #fff;
+  height: auto;
+
+  input {
+    font-size: 16px;
+    padding: 15px;
+  }
+
+  .mat-input-element {
+    background-color: #f5f5f5; 
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease-in-out;
+
+    &:focus {
+      border-color: #3f51b5; 
+    }
+  }
+
+  .mat-form-field-label {
+    font-size: 10px;
+    color: #fff;
+  }
+}
+
+// Style des actions (bouton login)
+.login-actions {
+  display: flex;
+  justify-content: center;
+
+  button {
+    background-color: #3f51b5;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #303f9f; 
+    }
+  }
+}
+
+// Style pour les actions de déconnexion
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+
+  button {
+    color: #3f51b5; 
+    font-weight: bold;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #303f9f;
+    }
+
+    mat-icon {
+      margin-right: 5px;
+    }
+  }
+}

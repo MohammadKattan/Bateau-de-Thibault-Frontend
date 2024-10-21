@@ -88,7 +88,7 @@ logQuantities(product: Product) {
 
 // 2. Fonction pour mettre à jour le produit en promotion
 updateProduct(product: Product) {
-  this.productService.updateProductputonsale(product)
+  this.productService.updateProductPutOnSale(product)
     .pipe(
       catchError((error) => {
         console.error('Erreur lors de la mise à jour du produit', error);
@@ -103,7 +103,7 @@ updateProduct(product: Product) {
 // 6. Décrémente le stock
 decrementStock(product: Product, difference: number) {
   console.log('Décrémentation du stock de', difference);
-  this.productService.updateProductdecrementStockById(product, difference)
+  this.productService.updateProductDecrementStockById(product, difference)
     .pipe(
       catchError((error) => {
         console.error('Erreur lors de la mise à jour du produit', error);
@@ -119,7 +119,7 @@ decrementStock(product: Product, difference: number) {
 // 7. Incrémente le stock
 incrementStock(product: Product, difference: number) {
   console.log('Incrémentation du stock de', difference);
-  this.productService.updateProductincrementStockById(product, difference)
+  this.productService.updateProductIncrementStockById(product, difference)
     .pipe(
       catchError((error) => {
         console.error('Erreur lors de la mise à jour du produit', error);
@@ -186,8 +186,6 @@ calculatePercentageDiscount(product: Product): number {
 
   return parseFloat(roundedDiscountAmount);
 }
-
-
 
 filterProducts(): void {
   if (this.selectedCategory === 'all') {

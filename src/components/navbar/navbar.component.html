@@ -16,4 +16,17 @@
     <mat-icon>bar_chart</mat-icon> 
     Stats
   </a>
+  
+ <!-- Bouton "Se connecter" (affiché si l'utilisateur n'est pas connecté) -->
+  
+<a *ngIf="!loginService.isLoggedIn()" mat-button routerLink="/login" class="nav-link">
+  <mat-icon>login</mat-icon>
+  Se connecter
+</a>
+
+<!-- Bouton "Se déconnecter" (affiché si l'utilisateur est connecté) -->
+<a *ngIf="loginService.isLoggedIn()" mat-button (click)="loginService.onLogout()" class="nav-link">
+  <mat-icon>logout</mat-icon>
+  Se déconnecters
+</a>
 </mat-toolbar>
