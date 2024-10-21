@@ -17,4 +17,6 @@ export interface Product{
     stockChange: number;
     operationPrice: number;
     // quantity_sold:number;
+    achat:boolean;
+    stock_price:number;
 }

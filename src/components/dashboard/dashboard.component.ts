@@ -6,6 +6,7 @@ import { Chart, registerables } from 'chart.js';
 import { DataService } from '../../app/data.service';
 import { StatsService } from '../../app/Core/Services/stats.service';
 import { Stats } from '../../app/Core/Models/stats'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 Chart.register(...registerables);
 @Component({
@@ -42,11 +43,15 @@ export class DashboardComponent implements AfterViewInit {
   quarters = ['1er trimestre', '2ème trimestre', '3ème trimestre', '4ème trimestre'];
 
   promotions: string[] = [];
-
-  constructor(private dataService: DataService,private StatsService: StatsService) {}
+  isNegativeMargin: boolean = false;
+  isPositiveProfit: boolean = false;
+  showConfetti: boolean = false;
+  constructor(private dataService: DataService, private StatsService: StatsService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.loadData();
+    this.checkAlerts();
+
   }
 
   loadData() {
@@ -75,8 +80,57 @@ export class DashboardComponent implements AfterViewInit {
 
     this.calculateRevenue();
     this.calculateMarginAndTaxes();
+    this.updateIndicators();
+    this.checkAlerts();
   }
 
+  updateIndicators() {
+    // Réinitialiser les indicateurs avant la mise à jour
+    this.isNegativeMargin = false;
+    this.isPositiveProfit = false;
+    this.showConfetti = false;
+  
+    if (this.selectedYear !== 'all' && this.selectedQuarter !== 'all') {
+      this.isNegativeMargin = this.margin <= 0;
+      this.isPositiveProfit = this.accountingResult > 0;
+  
+      console.log('isNegativeMargin:', this.isNegativeMargin);
+      console.log('isPositiveProfit:', this.isPositiveProfit);
+      
+      const currentQuarter = this.getQuarter(new Date());
+      const previousSixQuarters = this.getPreviousSixQuartersData(currentQuarter);
+      const previousAverageProfit = this.calculateAverageProfit(previousSixQuarters);
+  
+      this.showConfetti = this.accountingResult > 2 * previousAverageProfit;
+      console.log('showConfetti:', this.showConfetti);
+    }
+  }
+  
+
+
+  getPreviousSixQuartersData(currentQuarter: string): Stats[] {
+    // Récupérer les données des six trimestres précédents
+    const currentYear = new Date().getFullYear();
+    const previousQuarters = this.salesData
+      .filter(item => {
+        const itemDate = new Date(item.date);
+        const itemYear = itemDate.getFullYear();
+        const itemQuarter = this.getQuarter(itemDate);
+        
+        // Vérifier si les données sont dans les six trimestres précédents
+        return (
+          (itemYear === currentYear - 1 && itemQuarter >= '3ème trimestre') ||
+          (itemYear === currentYear && itemQuarter < currentQuarter)
+        );
+      });
+    
+    return previousQuarters;
+  }
+
+  calculateAverageProfit(data: Stats[]): number {
+    const totalProfit = data.reduce((sum, item) => sum + (item.price * item.quantity - item.total_invoice), 0);
+    return data.length ? totalProfit / data.length : 0;
+  }
   getQuarter(date: Date): string {
     const month = date.getMonth();
     if (month < 3) return '1er trimestre';
@@ -202,5 +256,29 @@ export class DashboardComponent implements AfterViewInit {
     this.selectedPromotion = promotion;
     this.applyFilters();
     this.createChart();
+  }
+
+  checkAlerts() {
+    //console.log('isNegativeMargin:', this.isNegativeMargin);
+    //console.log('isPositiveProfit:', this.isPositiveProfit);
+    //console.log('showConfetti:', this.showConfetti);
+  
+    if (this.selectedYear !== 'all' && this.selectedQuarter !== 'all') {
+      if (this.isNegativeMargin) {
+        this.openSnackBar('Alerte : La marge est négative ce trimestre !', 'Fermer', 'red');
+      } else if (this.isPositiveProfit) {
+        this.openSnackBar('Bravo ! Vous avez dégagé un bénéfice ce trimestre.', 'Fermer', 'green');
+      } else if (this.showConfetti) {
+        this.openSnackBar('🎉 Félicitations ! Le bénéfice de ce trimestre est le double de la moyenne des six trimestres précédents ! 🎉', 'Fermer', 'green');
+      }
+    }
+  }
+  
+
+  openSnackBar(message: string, action: string, color: string) {
+    const snackBarRef = this.snackBar.open(message, action, {
+      duration: 5000,
+      panelClass: [color] // Custom class for styling
+    });
   }
 }
