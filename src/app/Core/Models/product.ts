@@ -15,5 +15,6 @@ export interface Product{
     isEditing: boolean;
     operationType: 'add' | 'remove'; 
     stockChange: number;
+    operationPrice: number;
     // quantity_sold:number;
 }

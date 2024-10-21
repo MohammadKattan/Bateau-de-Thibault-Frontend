@@ -29,7 +29,6 @@
         </div>
         <!-- Edit All-->
         <div class="edit-buttons">
-            <h4 class="edit-title">All:</h4>
             <ng-container>
                 <ng-container *ngIf="!product.isEditing; else editField">
                     <button class="btn btn-tag" (click)="enableEditModeForAll()">
@@ -108,6 +107,7 @@
                         <label><input type="radio" [(ngModel)]="product.operationType" value="add" name="operationType" required> Ajouter</label>
                         <label><input type="radio" [(ngModel)]="product.operationType" value="remove" name="operationType" required> Retirer</label>
                         <input type="number" [(ngModel)]="product.stockChange" name="stockChange" min="1" placeholder="Entrez la quantité" (focus)="resetStockChange(product)" required>
+                        <input type="number" [(ngModel)]="product.operationPrice" name="operationPrice" min="0" placeholder="Entrez le prix d'opération/1"  required>
                         <div *ngIf="product.stockChange < 0" class="error-message">La valeur minimale est 0</div>
                     </form>
                 </ng-template>
@@ -120,7 +120,7 @@
         </ng-container>
 
         <ng-container matColumnDef="edit">
-            <th class="vertical-line text-center --primary-blue-title font-weight-bold" mat-header-cell *matHeaderCellDef>#</th>
+            <th class="vertical-line text-center --primary-blue-title font-weight-bold" mat-header-cell *matHeaderCellDef>Edit</th>
             <td class="vertical-line text-center" mat-cell *matCellDef="let product">
                 <ng-container *ngIf="product.isEditing; else editIcon">
                     <form (submit)="saveProduct(product); toggleEditMode(product)">

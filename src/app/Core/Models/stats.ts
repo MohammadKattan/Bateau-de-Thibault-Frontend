@@ -6,7 +6,7 @@ export interface Stats {
     quantity: number;
     date: string;
     achat: boolean;
-    type_promotion: string ;
+    type_promotion: string;
     discount: number;
     total_invoice: number;
 }
