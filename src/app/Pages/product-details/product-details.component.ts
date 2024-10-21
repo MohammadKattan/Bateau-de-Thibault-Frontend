@@ -1,6 +1,7 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, Type } from '@angular/core';
 import { ProductsService } from '../../Core/Services/products.service';
 import { Product } from '../../Core/Models/product';
+import { StatsService } from '../../Core/Services/stats.service';
 import {NgIf, NgFor} from '@angular/common';
 import {MatTableModule} from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
@@ -21,9 +22,6 @@ import { CommonModule } from '@angular/common';
   
 export class ProductDetailsComponent implements OnInit, OnChanges{
   quantityChange: number = 0;
-
-
-  // Variables pour savoir quelle checkbox est sélectionnée
   discountError = false;
   productsList: Product[] = [];
   productsCrustacesList: Product[] = [];
@@ -34,11 +32,11 @@ export class ProductDetailsComponent implements OnInit, OnChanges{
   product = { isEditing: false };
   categories = [
     { id: 'all', name: 'All' },
-    { id: 0, name: 'Poisson' },
-    { id: 1, name: 'Fruits de Mer' },
+    { id: 0, name: 'Poissons' },
+    { id: 1, name: 'Coquillages' },
     { id: 2, name: 'Crustacés' }
   ];
-  constructor(private productsService: ProductsService,private productService: ProductsService,private notificationService: NotificationService) {}
+  constructor(private productsService: ProductsService, private productService: ProductsService, private notificationService: NotificationService, private StatsService: StatsService) {}
 
   ngOnInit() {
     this.getProducts()
@@ -74,8 +72,10 @@ export class ProductDetailsComponent implements OnInit, OnChanges{
   if (product.stockChange!==0) {
     if (product.operationType==='add') {
       this.incrementStock(product, product.stockChange);
+      this.newoperation(product.category,true,product.stockChange,product.operationPrice)
     }else if (product.operationType==='remove') {
       this.decrementStock(product, product.stockChange);
+      this.newoperation(product.category,false,product.stockChange,product.operationPrice)
     }
   }
 }
@@ -144,7 +144,20 @@ incrementStock(product: Product, difference: number) {
       console.log('Produit mis à jour avec succès', updatedProduct);
       this.notificationService.showNotification(`${product.name} a été modifié avec succès !`);
     });
-}
+  }
+  newoperation(category : number,type: boolean, stock : number , priceOperation : number) {
+
+    this.StatsService.updateProductPrice(category, type, stock , priceOperation)
+    .pipe(
+      catchError((error) => {
+        console.error('Erreur lors de la mise à jour du produit', error);
+        throw error;
+      })
+    )
+    .subscribe((newoperation) => {
+      console.log('Produit mis à jour avec succès', newoperation);
+    });
+  }
   enableEditModeForAll() {
     this.product.isEditing = true;
     for (const product of this.productsList) {

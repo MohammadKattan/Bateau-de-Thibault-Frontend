@@ -16,5 +16,13 @@ import { Observable } from 'rxjs';
     public getStatsFromJson(): Observable<Stats[]> {
         return this.http.get<Stats[]>(this.apiUrl + '/stats/');
     }
+    updateProductPrice(category: number, type: boolean, stock: number, priceOperation: number): Observable<Stats> {
+        console.log("test test from stats.service");
 
+        // Construction de l'URL avec les paramètres
+        const url = (this.apiUrl + "/newOperation/" + category + "/" + type +"/"+stock + "/"+ priceOperation);
+        
+        // Utilisation d'une requête GET
+        return this.http.get<Stats>(url);
+    }
 }
