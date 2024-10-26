@@ -41,6 +41,6 @@ onLogout() {
   }
 
     isLoggedIn(): boolean {
-    return !!localStorage.getItem('access_token');  // Vérifie si le token est présent
-  }
+      return !!localStorage.getItem('access_token');  // Vérifie si le token est présent
+    }
 }
