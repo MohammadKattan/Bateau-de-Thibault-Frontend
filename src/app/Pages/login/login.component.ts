@@ -38,8 +38,6 @@ export class LoginComponent {
          this.etat = true;
          this.NotificationService.showNotification(`Connexion a réussie !`);
           this.router.navigate(['/']);
-
-
       },
        (error: HttpErrorResponse) => { 
         this.NotificationService.showNotification(`Connexion a échoué !`);
